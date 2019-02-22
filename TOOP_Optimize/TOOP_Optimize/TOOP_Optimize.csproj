@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\RandomExtension.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,6 +58,7 @@
     <Compile Include="Interfaces\interfaces.cs" />
     <Compile Include="Optimizers\GoldenRatio.cs" />
     <Compile Include="Optimizers\GradientDescent.cs" />
+    <Compile Include="Optimizers\RandomSearch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
