@@ -13,7 +13,7 @@ namespace TOOP_Optimize.Interfaces
     }
     public interface IFunctionalWithDiff : IFunctional
     {
-        double DfDp(int i, double[] parameters);
+        double DfDp(int i, double parameter);
     }
 
     public interface IOptimizer
