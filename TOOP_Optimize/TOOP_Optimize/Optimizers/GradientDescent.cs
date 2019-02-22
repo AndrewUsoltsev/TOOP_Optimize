@@ -23,11 +23,11 @@ namespace TOOP_Optimize.Optimizers
 
         public (double min, double max)[] Range { get; }
 
-        public double DfDp(int i, double parameter)
+        public double DfDp(int i, double[] parameters)
         {
             if (i == 0)
             {
-                return 2 * parameter;
+                return 2 * parameters[0];
             }
            throw new ArgumentOutOfRangeException(nameof(i));
         }
@@ -83,7 +83,7 @@ namespace TOOP_Optimize.Optimizers
                 for (var i = 0; i < currentPoint.Length; i++)
                 {
                     var value = currentPoint[i];
-                    newPoint[i] = value - alpha * functional.DfDp(i, value);
+                    newPoint[i] = value - alpha * functional.DfDp(i, currentPoint);
                     //Возможно, стоит делать эту проверку на область в цикле
                 }
 

@@ -67,11 +67,13 @@ namespace TOOP_Optimize.Optimizers
                 {
                     Range[i] = (point[i] - (Range[i].max - Range[i].min) / 2
                         , point[i] + (Range[i].max - Range[i].min) / 2);
-                }
 
+                    if (Range[i].max - Range[i].min < Eps)
+                    {
+                        return point;
+                    }
+                }
             }
-            
-            throw new NotImplementedException();
         }
 
         public double Eps { get; set; }
