@@ -44,7 +44,7 @@ namespace TOOP_Optimize.Optimizers
             return functional.Range.Where((range, i) => point[i] < range.min || point[i] > range.max).Any();
         }
         // Нужно находить из условия минимизации, а не задавать от балды 
-        private double alpha { get; set; } = 0.1;
+        private double alpha { get; set; } = 0.01;
 
         public GradientDescent(FunctionalWithDiff func, DateTime maxTime, double eps)
         {
