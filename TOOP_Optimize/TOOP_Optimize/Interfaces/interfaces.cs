@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace TOOP_Optimize.Interfaces
 {
-    interface Functional
+    public interface Functional
     {
         double Value(double[] parameters);
         (double min, double max)[] Range { get; }
     }
-    interface FunctionalWithDiff : Functional
+    public interface FunctionalWithDiff : Functional
     {
-        double DfDp(int i, double[] parameters);
+        double DfDp(int i, double parameter);
     }
 
-    interface Optimizer
+    public interface Optimizer
     {
-        Functional functional { set; }
+        FunctionalWithDiff functional { set; }
         double[] Optimize(double[] initial,
             IProgress<(double[] current, double residual, int progresslen, int progressval)> progress);
         double Eps { set; }
