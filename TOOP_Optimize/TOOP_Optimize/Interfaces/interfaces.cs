@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace TOOP_Optimize.Interfaces
 {
-    interface IFunctional
+    public interface IFunctional
     {
         double Value(double[] parameters);
         (double min, double max)[] Range { get; }
     }
-    interface IFunctionalWithDiff : IFunctional
+    public interface IFunctionalWithDiff : IFunctional
     {
         double DfDp(int i, double[] parameters);
     }
 
-    interface IOptimizer
+    public interface IOptimizer
     {
         IFunctional functional { set; }
         double[] Optimize(double[] initial,
