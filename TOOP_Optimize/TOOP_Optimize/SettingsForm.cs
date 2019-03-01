@@ -7,14 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TOOP_Optimize.Interfaces;
 
 namespace TOOP_Optimize
 {
-    public partial class Form1 : Form
+    public partial class SettingsForm : Form
     {
-        public Form1()
+        public SettingsForm()
         {
             InitializeComponent();
+        }
+
+        public SettingsForm(IFunctional functional)
+        {
+
+        }
+
+        public SettingsForm(IOptimizer optimizer)
+        {
+
         }
     }
 }
