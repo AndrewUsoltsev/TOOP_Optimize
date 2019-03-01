@@ -13,6 +13,7 @@ namespace TOOP_Optimize
 {
     public partial class SettingsForm : Form
     {
+        
         public SettingsForm()
         {
             InitializeComponent();
@@ -20,10 +21,32 @@ namespace TOOP_Optimize
 
         public SettingsForm(IFunctional functional)
         {
+            InitializeComponent();
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Параметры", typeof(string));
+            dataTable.Columns.Add("Значения", typeof(string));
+
+            dataTable.Rows.Add(  "Eps", "AA" );
+            dataTable.Rows.Add("MaxTime", "AA" );
+
+            ParamsGridView.DataSource = dataTable;
 
         }
 
         public SettingsForm(IOptimizer optimizer)
+        {
+            InitializeComponent();
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Параметры");
+            dataTable.Columns.Add("Значения");
+
+            dataTable.Rows.Add("Eps", "AA");
+            dataTable.Rows.Add("MaxTime", "AA");
+
+            ParamsGridView.DataSource = dataTable;
+        }
+
+        public void SetParamsFromClasses(IFunctional functional = null, IOptimizer optimizer = null)
         {
 
         }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TOOP_Optimize.Interfaces;
 
 namespace TOOP_Optimize
 {
@@ -28,12 +29,17 @@ namespace TOOP_Optimize
 
         private void FunctionalSettings_Click(object sender, EventArgs e)
         {
-            SettingsForm settingsForm = new SettingsForm()
+            IFunctional functional = null;
+            SettingsForm settingsForm = new SettingsForm(functional);
+            settingsForm.ShowDialog();
         }
 
         private void OptimizerSettings_Click(object sender, EventArgs e)
         {
-
+            IOptimizer functional = null;
+            SettingsForm settingsForm = new SettingsForm(functional);
+            settingsForm.ShowDialog();
+            
         }
     }
 }
