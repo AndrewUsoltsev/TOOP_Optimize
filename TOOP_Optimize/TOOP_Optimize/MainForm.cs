@@ -29,17 +29,24 @@ namespace TOOP_Optimize
 
         private void FunctionalSettings_Click(object sender, EventArgs e)
         {
-            IFunctional functional = null;
-            SettingsForm settingsForm = new SettingsForm(functional);
+            SettingsForm settingsForm = new SettingsForm(true, FunctionalComboBox.SelectedItem.ToString());
             settingsForm.ShowDialog();
+            if (settingsForm.DialogResult == DialogResult.OK)
+            {
+
+            }
         }
 
         private void OptimizerSettings_Click(object sender, EventArgs e)
         {
             IOptimizer functional = null;
-            SettingsForm settingsForm = new SettingsForm(functional);
+            SettingsForm settingsForm = new SettingsForm(false, OptimizerComboBox.SelectedItem.ToString());
             settingsForm.ShowDialog();
-            
+            if (settingsForm.DialogResult == DialogResult.OK)
+            {
+
+            }
+
         }
     }
 }

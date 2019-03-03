@@ -19,36 +19,65 @@ namespace TOOP_Optimize
             InitializeComponent();
         }
 
-        public SettingsForm(IFunctional functional)
+        public SettingsForm(bool isFunctional, string objectName)
         {
             InitializeComponent();
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("Параметры", typeof(string));
-            dataTable.Columns.Add("Значения", typeof(string));
+            if (isFunctional)
+            {
+                if (objectName == "spline")
+                {
+                    PolynomDegreeComboBox.Visible = true;
+                    FunctionalParamsGridView.Visible = true;
+                    PolynomDegreeComboBox.SelectedIndex = 0;
 
-            dataTable.Rows.Add(  "Eps", "AA" );
-            dataTable.Rows.Add("MaxTime", "AA" );
+                    DataTable dataTable = new DataTable();
+                    dataTable.Columns.Add("Степени", typeof(string));
+                    dataTable.Columns["Степени"].ReadOnly = true;
 
-            ParamsGridView.DataSource = dataTable;
+                    var degreeCount = int.Parse(PolynomDegreeComboBox.SelectedItem.ToString());
+                    for (int i=0;i < degreeCount + 1;i++)
+                    {
+                        dataTable.Columns.Add((degreeCount-i).ToString(), typeof(double));
+                    }
+                    dataTable.Rows.Add("Значения");
+
+                    FunctionalParamsGridView.DataSource = dataTable;
+
+
+
+
+                }
+            }
+            else
+            {
+                ParamsGridView.Visible = true;
+
+                // TODO To method
+                DataTable dataTable = new DataTable();
+                dataTable.Columns.Add("Параметры", typeof(string));
+                dataTable.Columns.Add("Значения", typeof(string));
+                dataTable.Columns["Параметры"].ReadOnly = true;
+                dataTable.Columns["Значения"].ReadOnly = false;
+
+                dataTable.Rows.Add("Eps", "AA");
+                dataTable.Rows.Add("MaxTime", "AA");
+
+                ParamsGridView.DataSource = dataTable;
+            }
 
         }
 
-        public SettingsForm(IOptimizer optimizer)
+        private void SaveButton_Click(object sender, EventArgs e)
         {
-            InitializeComponent();
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("Параметры");
-            dataTable.Columns.Add("Значения");
-
-            dataTable.Rows.Add("Eps", "AA");
-            dataTable.Rows.Add("MaxTime", "AA");
-
-            ParamsGridView.DataSource = dataTable;
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
-        public void SetParamsFromClasses(IFunctional functional = null, IOptimizer optimizer = null)
+        private void CancelButton_Click(object sender, EventArgs e)
         {
-
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
+
     }
 }
