@@ -23,7 +23,7 @@ namespace TOOP_Optimize
             var tmp = new GradientDescent(new F(), new DateTime().AddMinutes(3), 1E-12);
             var tmp_df = new RandomSearch(new F(), new DateTime().AddMinutes(3), 1E-12);
             
-            var  = tmp_df.Optimize(new double[] {5},
+            var asd = tmp_df.Optimize(new double[] {5},
                 new Progress<(double[] current, double residual, int progresslen, int progressval)>());
             var daf = tmp.Optimize(new double[] { 5 },
                 new Progress<(double[] current, double residual, int progresslen, int progressval)>());
