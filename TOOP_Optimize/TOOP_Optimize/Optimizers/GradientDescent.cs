@@ -39,12 +39,16 @@ namespace TOOP_Optimize.Optimizers
 
         private int FuncArguments => functional.Range.Length;
 
-        private bool CheckRange(double[] point)
+        private bool AtRange(double[] point)
         {
             return functional.Range.Where((range, i) => point[i] < range.min || point[i] > range.max).Any();
         }
         // Нужно находить из условия минимизации, а не задавать от балды 
         private double alpha { get; set; } = 0.01;
+
+        public double Eps { get; set; }
+
+        public DateTime MaxTime { get; set; }
 
         public GradientDescent(FunctionalWithDiff func, DateTime maxTime, double eps)
         {
@@ -55,9 +59,9 @@ namespace TOOP_Optimize.Optimizers
 
         public double[] Optimize(double[] initial, IProgress<(double[] current, double residual, int progresslen, int progressval)> progress)
         {
-            if (CheckRange(initial))
+            if (AtRange(initial))
             {
-                throw new ArgumentException(nameof(initial), "Initial array has wrong demension.");
+                throw new ArgumentException(@"Initial array has wrong demension.", nameof(initial));
             }
 
             if (progress == null)
@@ -71,14 +75,13 @@ namespace TOOP_Optimize.Optimizers
             }
 
             var currentPoint = initial;
-            Stopwatch time = new Stopwatch();
+            var time = new Stopwatch();
             var newPoint = new double[initial.Length];
-            double currentValue = 0;
-            double newValue = 0;
+
             time.Start();
             while (true)
             {
-                currentValue = functional.Value(currentPoint);
+                var currentValue = functional.Value(currentPoint);
 
                 for (var i = 0; i < currentPoint.Length; i++)
                 {
@@ -87,13 +90,13 @@ namespace TOOP_Optimize.Optimizers
                     //Возможно, стоит делать эту проверку на область в цикле
                 }
 
-                if (CheckRange(newPoint))
+                if (AtRange(newPoint))
                 {
                     alpha /= 2;
                     newPoint = (double[])currentPoint.Clone();
                 }
 
-                newValue = functional.Value(newPoint);
+                var newValue = functional.Value(newPoint);
 
                 if (Math.Abs(currentValue - newValue) <= Eps)
                     return newPoint;
@@ -106,8 +109,5 @@ namespace TOOP_Optimize.Optimizers
                 // progress.Report(currentPoint, Eps, iterNum);
             }
         }
-
-        public double Eps { get; set; }
-        public DateTime MaxTime { get; set; }
     }
 }
