@@ -104,6 +104,7 @@
             this.PolynomDegreeComboBox.Size = new System.Drawing.Size(46, 21);
             this.PolynomDegreeComboBox.TabIndex = 4;
             this.PolynomDegreeComboBox.Visible = false;
+            this.PolynomDegreeComboBox.SelectedValueChanged += new System.EventHandler(this.PolynomDegreeComboBox_SelectedValueChanged);
             // 
             // SettingsForm
             // 

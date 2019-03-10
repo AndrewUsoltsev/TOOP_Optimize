@@ -19,6 +19,22 @@ namespace TOOP_Optimize
             InitializeComponent();
         }
 
+
+        public DataTable GetDataTableForSpline(int degreeOfPolynom)
+        {
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("Степени", typeof(string));
+            dataTable.Columns["Степени"].ReadOnly = true;
+
+            var degreeCount = degreeOfPolynom;
+            for (int i = 0; i < degreeCount + 1; i++)
+            {
+                dataTable.Columns.Add((degreeCount - i).ToString(), typeof(double));
+            }
+            dataTable.Rows.Add("Значения");
+            return dataTable;
+        }
+
         public SettingsForm(bool isFunctional, string objectName)
         {
             InitializeComponent();
@@ -30,18 +46,8 @@ namespace TOOP_Optimize
                     FunctionalParamsGridView.Visible = true;
                     PolynomDegreeComboBox.SelectedIndex = 0;
 
-                    DataTable dataTable = new DataTable();
-                    dataTable.Columns.Add("Степени", typeof(string));
-                    dataTable.Columns["Степени"].ReadOnly = true;
-
                     var degreeCount = int.Parse(PolynomDegreeComboBox.SelectedItem.ToString());
-                    for (int i=0;i < degreeCount + 1;i++)
-                    {
-                        dataTable.Columns.Add((degreeCount-i).ToString(), typeof(double));
-                    }
-                    dataTable.Rows.Add("Значения");
-
-                    FunctionalParamsGridView.DataSource = dataTable;
+                    FunctionalParamsGridView.DataSource = GetDataTableForSpline(degreeCount);
 
 
 
@@ -79,5 +85,22 @@ namespace TOOP_Optimize
             Close();
         }
 
+        private void PolynomDegreeComboBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (PolynomDegreeComboBox.Visible == false)
+                return;
+
+            var tmpDataTable = FunctionalParamsGridView.DataSource as DataTable;
+            FunctionalParamsGridView.DataSource = null;
+
+            var degreeCount = int.Parse(PolynomDegreeComboBox.SelectedItem.ToString());
+            var dataTable = GetDataTableForSpline(degreeCount);
+
+            foreach (var col in dataTable.Columns)
+                if (col.ToString() != "Степени" && tmpDataTable.Columns.Contains(col.ToString()))
+                    dataTable.Rows[0][col.ToString()] = tmpDataTable.Rows[0][col.ToString()];
+
+            FunctionalParamsGridView.DataSource = dataTable;
+        }
     }
 }
