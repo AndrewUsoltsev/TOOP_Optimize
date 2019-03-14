@@ -9,7 +9,7 @@ using TOOP_Optimize.Interfaces;
 
 namespace TOOP_Optimize.Optimizers
 {
-    class F: FunctionalWithDiff
+    class F: IFunctionalWithDiff
     {
         public F()
         {
@@ -33,9 +33,9 @@ namespace TOOP_Optimize.Optimizers
         }
     }
 
-    public class GradientDescent : Optimizer
+    public class GradientDescent : IOptimizer
     {
-        public FunctionalWithDiff functional { get; set; }
+        public IFunctionalWithDiff functional { get; set; }
 
         private int FuncArguments => functional.Range.Length;
 
@@ -50,7 +50,7 @@ namespace TOOP_Optimize.Optimizers
 
         public DateTime MaxTime { get; set; }
 
-        public GradientDescent(FunctionalWithDiff func, DateTime maxTime, double eps)
+        public GradientDescent(IFunctionalWithDiff func, DateTime maxTime, double eps)
         {
             functional = func;
             MaxTime = maxTime;
