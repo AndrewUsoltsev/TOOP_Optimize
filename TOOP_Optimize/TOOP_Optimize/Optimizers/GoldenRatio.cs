@@ -3,11 +3,11 @@ using TOOP_Optimize.Interfaces;
 
 namespace TOOP_Optimize.Optimizers
 {
-    public class GoldenRatio : Optimizer
+    public class GoldenRatio : IOptimizer
     {
         private readonly double fi = (1 + Math.Sqrt(5)) / 2; 
 
-        public Functional functional { get; set; }
+        public IFunctional functional { get; set; }
 
         public double[] Optimize(double[] initial, IProgress<(double[] current, double residual, int progresslen, int progressval)> progress)
         {
@@ -41,6 +41,6 @@ namespace TOOP_Optimize.Optimizers
 
         public double Eps { get; set; }
         public DateTime MaxTime { get; set; }
-        FunctionalWithDiff Optimizer.functional { set => throw new NotImplementedException(); }
+        IFunctionalWithDiff IOptimizer.functional { set => throw new NotImplementedException(); }
     }
 }
