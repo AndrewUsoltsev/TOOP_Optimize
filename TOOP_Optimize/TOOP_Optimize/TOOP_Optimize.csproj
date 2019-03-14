@@ -89,7 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Functionals\" />
-    <Folder Include="Optimizers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
