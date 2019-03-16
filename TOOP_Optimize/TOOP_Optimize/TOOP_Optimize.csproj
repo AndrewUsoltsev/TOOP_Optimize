@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\RandomExtension.cs" />
     <Compile Include="Functionals\Polinomial.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
