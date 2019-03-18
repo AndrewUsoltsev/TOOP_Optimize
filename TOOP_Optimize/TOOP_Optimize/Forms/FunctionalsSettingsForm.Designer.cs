@@ -1,6 +1,6 @@
 ﻿namespace TOOP_Optimize
 {
-    partial class SettingsForm
+    partial class FunctionalsSettingsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,26 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ParamsGridView = new System.Windows.Forms.DataGridView();
             this.SaveButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.FunctionalParamsGridView = new System.Windows.Forms.DataGridView();
             this.PolynomDegreeComboBox = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.ParamsGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FunctionalParamsGridView)).BeginInit();
             this.SuspendLayout();
-            // 
-            // ParamsGridView
-            // 
-            this.ParamsGridView.AllowUserToAddRows = false;
-            this.ParamsGridView.AllowUserToDeleteRows = false;
-            this.ParamsGridView.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ParamsGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ParamsGridView.Location = new System.Drawing.Point(12, 142);
-            this.ParamsGridView.Name = "ParamsGridView";
-            this.ParamsGridView.Size = new System.Drawing.Size(308, 196);
-            this.ParamsGridView.TabIndex = 0;
-            this.ParamsGridView.Visible = false;
             // 
             // SaveButton
             // 
@@ -106,7 +92,7 @@
             this.PolynomDegreeComboBox.Visible = false;
             this.PolynomDegreeComboBox.SelectedValueChanged += new System.EventHandler(this.PolynomDegreeComboBox_SelectedValueChanged);
             // 
-            // SettingsForm
+            // FunctionalsSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -115,20 +101,16 @@
             this.Controls.Add(this.FunctionalParamsGridView);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.ParamsGridView);
-            this.Name = "SettingsForm";
+            this.Name = "FunctionalsSettingsForm";
             this.Text = "SettingsForm";
-            ((System.ComponentModel.ISupportInitialize)(this.ParamsGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FunctionalParamsGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.DataGridView ParamsGridView;
         private System.Windows.Forms.Button SaveButton;
-        private System.Windows.Forms.Button CancelButton;
+        private new System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.DataGridView FunctionalParamsGridView;
         private System.Windows.Forms.ComboBox PolynomDegreeComboBox;
     }

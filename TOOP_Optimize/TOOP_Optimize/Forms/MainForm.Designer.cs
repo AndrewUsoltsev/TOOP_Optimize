@@ -36,17 +36,20 @@
             this.FunctionalLabel = new System.Windows.Forms.Label();
             this.OptimizerLabel = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.InitialLabel = new System.Windows.Forms.Label();
+            this.InitialVectorTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // ProcessStartButton
             // 
             this.ProcessStartButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ProcessStartButton.Location = new System.Drawing.Point(222, 237);
+            this.ProcessStartButton.Location = new System.Drawing.Point(222, 260);
             this.ProcessStartButton.Name = "ProcessStartButton";
             this.ProcessStartButton.Size = new System.Drawing.Size(111, 23);
             this.ProcessStartButton.TabIndex = 0;
             this.ProcessStartButton.Text = "Оптимизировать!";
             this.ProcessStartButton.UseVisualStyleBackColor = true;
+            this.ProcessStartButton.Click += new System.EventHandler(this.ProcessStartButton_Click);
             // 
             // FunctionalComboBox
             // 
@@ -118,11 +121,30 @@
             this.progressBar1.Size = new System.Drawing.Size(618, 23);
             this.progressBar1.TabIndex = 7;
             // 
+            // InitialLabel
+            // 
+            this.InitialLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.InitialLabel.AutoSize = true;
+            this.InitialLabel.Location = new System.Drawing.Point(219, 203);
+            this.InitialLabel.Name = "InitialLabel";
+            this.InitialLabel.Size = new System.Drawing.Size(133, 13);
+            this.InitialLabel.TabIndex = 8;
+            this.InitialLabel.Text = "Начальное приближение";
+            // 
+            // InitialVectorTextBox
+            // 
+            this.InitialVectorTextBox.Location = new System.Drawing.Point(222, 219);
+            this.InitialVectorTextBox.Name = "InitialVectorTextBox";
+            this.InitialVectorTextBox.Size = new System.Drawing.Size(100, 20);
+            this.InitialVectorTextBox.TabIndex = 9;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(618, 450);
+            this.Controls.Add(this.InitialVectorTextBox);
+            this.Controls.Add(this.InitialLabel);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.OptimizerLabel);
             this.Controls.Add(this.FunctionalLabel);
@@ -147,6 +169,8 @@
         private System.Windows.Forms.Label FunctionalLabel;
         private System.Windows.Forms.Label OptimizerLabel;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label InitialLabel;
+        private System.Windows.Forms.TextBox InitialVectorTextBox;
     }
 }
 
