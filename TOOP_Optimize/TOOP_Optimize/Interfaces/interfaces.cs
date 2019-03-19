@@ -18,7 +18,7 @@ namespace TOOP_Optimize.Interfaces
 
     public interface IOptimizer
     {
-        IFunctionalWithDiff functional { set; }
+        IFunctional functional { set; }
         double[] Optimize(double[] initial,
             IProgress<(double[] current, double residual, int progresslen, int progressval)> progress);
         double Eps { set; }

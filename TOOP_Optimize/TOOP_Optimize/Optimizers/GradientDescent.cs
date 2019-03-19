@@ -9,11 +9,11 @@ using TOOP_Optimize.Interfaces;
 
 namespace TOOP_Optimize.Optimizers
 {
-    class F: IFunctionalWithDiff
+    class F : IFunctionalWithDiff
     {
         public F()
         {
-            Range = new []{(-10.0, 10.0)};
+            Range = new[] {(-10.0, 10.0)};
         }
 
         public double Value(double[] parameters)
@@ -29,7 +29,8 @@ namespace TOOP_Optimize.Optimizers
             {
                 return 2 * parameters[0];
             }
-           throw new ArgumentOutOfRangeException(nameof(i));
+
+            throw new ArgumentOutOfRangeException(nameof(i));
         }
     }
 
@@ -50,9 +51,11 @@ namespace TOOP_Optimize.Optimizers
 
         public DateTime MaxTime { get; set; }
 
-        public GradientDescent(IFunctionalWithDiff func, DateTime maxTime, double eps)
+        IFunctional IOptimizer.functional { set => throw new NotImplementedException(); }
+
+        public GradientDescent(IFunctional func, DateTime maxTime, double eps)
         {
-            functional = func;
+            functional = (IFunctionalWithDiff)func;
             MaxTime = maxTime;
             Eps = eps;
         }
@@ -64,10 +67,10 @@ namespace TOOP_Optimize.Optimizers
                 throw new ArgumentException(@"Initial array has wrong demension.", nameof(initial));
             }
 
-            if (progress == null)
-            {
-                throw new ArgumentNullException(nameof(progress));
-            }
+            //if (progress == null)
+            //{
+            //    throw new ArgumentNullException(nameof(progress));
+            //}
 
             if (initial == null)
             {
