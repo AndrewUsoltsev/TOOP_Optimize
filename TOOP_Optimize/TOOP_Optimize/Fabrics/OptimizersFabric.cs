@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using TOOP_Optimize.Interfaces;
@@ -19,8 +20,9 @@ namespace TOOP_Optimize.Fabrics
 
     public class OptimizersFabric
     {
-        public IOptimizer GetOptimizer(EOptimezerType type, IFunctionalWithDiff functionalWithDiff, DateTime maxTime, double eps)
+        public IOptimizer GetOptimizer(EOptimezerType type, IFunctional functionalWithDiff, DateTime maxTime, double eps)
         {
+             
             switch(type)
             {
                 case EOptimezerType.GoldenRatio:
@@ -34,8 +36,14 @@ namespace TOOP_Optimize.Fabrics
             }
         }
 
-        public IOptimizer GetOptimizer(string type, IFunctionalWithDiff functionalWithDiff, DateTime maxTime, double eps)
+        public IOptimizer GetOptimizer(string type, IFunctional functionalWithDiff, DateTime maxTime, double eps)
         {
+            var t = typeof(IOptimizer);
+            var types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => t.IsAssignableFrom(p))
+                .ToList();
+
             switch (type)
             {
                 case "GoldenRatio":

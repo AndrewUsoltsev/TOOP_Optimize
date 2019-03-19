@@ -7,7 +7,7 @@ namespace TOOP_Optimize.Optimizers
 {
     public class RandomSearch : IOptimizer
     {
-        public RandomSearch(IFunctionalWithDiff f, DateTime maxTime, double eps)
+        public RandomSearch(IFunctional f, DateTime maxTime, double eps)
         {
             this.functional = f;
             Range = f.Range;
@@ -15,7 +15,7 @@ namespace TOOP_Optimize.Optimizers
             Eps = eps;
         }
 
-        public IFunctionalWithDiff functional { get; set; }
+        public IFunctional functional { get; set; }
 
         private Random rnd;
 

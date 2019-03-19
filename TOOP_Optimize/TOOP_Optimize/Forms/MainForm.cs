@@ -81,7 +81,7 @@ namespace TOOP_Optimize
             optimizer = optimizersFabric
                 .GetOptimizer(
                 OptimizerComboBox.SelectedItem.ToString(), 
-                (IFunctionalWithDiff)functional, 
+                functional, 
                 optimizersFormat.MaxTime,
                 optimizersFormat.Eps);
 
