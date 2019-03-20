@@ -14,26 +14,26 @@ namespace TOOP_Optimize.Functionals
 
         public Polinomial(double min, double max, double[] coeff)
         {
-            Range = new[] { (min, max) };
             Сoeff = coeff;
+            Range = new[] { (min, max) };
         }
 
         public (double min, double max)[] Range { get; }
 
         public double Value(double[] parameters)
         {
-            return Polynomial(Сoeff, parameters[0]);
+            return CalcPolynomial(parameters[0]);
         }
 
-        private double Polynomial(double[] coeff, double x)
+        private double CalcPolynomial(double x)
         {
             var sum = 0.0;
             var xBuf = 1.0;
-            var degree = coeff.Count();
+            var degree = Сoeff.Count();
 
             for (int i = 0; i < degree; i++)
             {
-                sum += coeff[i] * xBuf;
+                sum += Сoeff[i] * xBuf;
                 xBuf *= x;
             }
 

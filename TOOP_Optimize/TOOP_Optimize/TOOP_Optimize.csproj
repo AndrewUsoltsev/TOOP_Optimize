@@ -52,6 +52,7 @@
     <Compile Include="Fabrics\OptimizersFabric.cs" />
     <Compile Include="Formats\FunctionalsFormat.cs" />
     <Compile Include="Formats\OptimizersFormat.cs" />
+    <Compile Include="Functionals\LSM.cs" />
     <Compile Include="Functionals\Polinomial.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
