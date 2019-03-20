@@ -48,21 +48,40 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extension\RandomExtension.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Fabrics\FunctionalsFabric.cs" />
+    <Compile Include="Fabrics\OptimizersFabric.cs" />
+    <Compile Include="Formats\FunctionalsFormat.cs" />
+    <Compile Include="Formats\OptimizersFormat.cs" />
+    <Compile Include="Functionals\Polinomial.cs" />
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forms\MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Functionals\Polinomial.cs" />
-    <Compile Include="Interfaces\interfaces.cs" />
+    <Compile Include="Interfaces\Interfaces.cs" />
+    <Compile Include="Forms\OptimizersSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\OptimizersSettingForm.Designer.cs">
+      <DependentUpon>OptimizersSettingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Optimizers\GoldenRatio.cs" />
     <Compile Include="Optimizers\GradientDescent.cs" />
     <Compile Include="Optimizers\RandomSearch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Forms\FunctionalsSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FunctionalsSettingsForm.Designer.cs">
+      <DependentUpon>FunctionalsSettingsForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Forms\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\OptimizersSettingForm.resx">
+      <DependentUpon>OptimizersSettingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -74,6 +93,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Forms\FunctionalsSettingsForm.resx">
+      <DependentUpon>FunctionalsSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -87,8 +109,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Functionals\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
