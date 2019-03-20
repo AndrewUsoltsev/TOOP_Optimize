@@ -10,6 +10,7 @@ namespace TOOP_Optimize.Functionals
     //y=a0+a1*x+...
     class Polinomial : IFunctional
     {
+        private List<Tuple<double, double>> listXY = new List<Tuple<double, double>>();
         private double[] coeff;
 
         public Polinomial(double[] coeff)
