@@ -29,10 +29,5 @@ namespace TOOP_Optimize
                 new Progress<(double[] current, double residual, int progresslen, int progressval)>());
             Console.WriteLine(asd);
         }
-
-        private void textBoxMin_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
