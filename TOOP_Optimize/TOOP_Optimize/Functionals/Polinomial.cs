@@ -10,19 +10,19 @@ namespace TOOP_Optimize.Functionals
     //y=a0+a1*x+...
     class Polinomial : IFunctional
     {
-        private List<Tuple<double, double>> listXY = new List<Tuple<double, double>>();
-        private double[] coeff;
+        private double[] Сoeff;
 
-        public Polinomial(double[] coeff)
+        public Polinomial(double min, double max, double[] coeff)
         {
-            this.coeff = coeff;
+            Range = new[] { (min, max) };
+            Сoeff = coeff;
         }
 
-        public (double min, double max)[] Range => throw new NotImplementedException();
+        public (double min, double max)[] Range { get; }
 
         public double Value(double[] parameters)
         {
-            return Polynomial(coeff, parameters[0]);
+            return Polynomial(Сoeff, parameters[0]);
         }
 
         private double Polynomial(double[] coeff, double x)
