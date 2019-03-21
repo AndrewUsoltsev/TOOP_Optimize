@@ -52,6 +52,7 @@
     <Compile Include="Fabrics\OptimizersFabric.cs" />
     <Compile Include="Formats\FunctionalsFormat.cs" />
     <Compile Include="Formats\OptimizersFormat.cs" />
+    <Compile Include="Functionals\LSM.cs" />
     <Compile Include="Functionals\Polinomial.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -59,6 +60,7 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Functionals\Spline.cs" />
     <Compile Include="Interfaces\Interfaces.cs" />
     <Compile Include="Forms\OptimizersSettingForm.cs">
       <SubType>Form</SubType>

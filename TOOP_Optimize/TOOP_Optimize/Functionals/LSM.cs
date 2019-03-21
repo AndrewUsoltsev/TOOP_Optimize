@@ -7,14 +7,15 @@ using TOOP_Optimize.Interfaces;
 
 namespace TOOP_Optimize.Functionals
 {
-    //y=a0+a1*x+...
-    class Polinomial : IFunctional
+    class LSM : IFunctional
     {
-        private double[] Сoeff;
+        private double[] X;
+        private double[] Y;
 
-        public Polinomial(double min, double max, double[] coeff)
+        public LSM(double min, double max, double[] x, double[] y)
         {
-            Сoeff = coeff;
+            X = x;
+            Y = y;
             Range = new[] { (min, max) };
         }
 
@@ -22,21 +23,17 @@ namespace TOOP_Optimize.Functionals
 
         public double Value(double[] parameters)
         {
-            return CalcPolynomial(parameters[0]);
+            return CalcLSM(parameters[0], parameters[1]);
         }
 
-        private double CalcPolynomial(double x)
+        private double CalcLSM(double a, double b)
         {
             var sum = 0.0;
-            var xBuf = 1.0;
-            var degree = Сoeff.Count();
-
-            for (int i = 0; i < degree; i++)
+            var size = X.Count();
+            for (int i = 0; i < size; i++)
             {
-                sum += Сoeff[i] * xBuf;
-                xBuf *= x;
+                sum += (Y[i] - (a * X[i] + b)) * (Y[i] - (a * X[i] + b));
             }
-
             return sum;
         }
     }
