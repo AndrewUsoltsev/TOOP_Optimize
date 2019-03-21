@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TOOP_Optimize.Formats;
 using TOOP_Optimize.Interfaces;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace TOOP_Optimize
 {
@@ -19,61 +21,17 @@ namespace TOOP_Optimize
             InitializeComponent();
         }
 
-
         private string ObjectName { get; set; }
-        public FunctionalsFormat FunctionalsFormat { get; }
+        public string JsonFile { get; private set; }
 
         public FunctionalsSettingsForm(string objectName)
         {
             InitializeComponent();
-
             ObjectName = objectName;
-            FunctionalsFormat = new FunctionalsFormat();
-
-
-            if (objectName == "Polinomial")
-            {
-                FunctionalParamsGridView.Visible = true;
-                PolynomDegreeComboBox.Visible = true;
-
-                PolynomDegreeComboBox.Visible = true;
-                FunctionalParamsGridView.Visible = true;
-                PolynomDegreeComboBox.SelectedIndex = 0;
-
-                var degreeCount = int.Parse(PolynomDegreeComboBox.SelectedItem.ToString());
-                FunctionalParamsGridView.DataSource = GetDataTableForSpline(degreeCount);
-            }
-
-
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            if (ObjectName == "Polinomial")
-            {
-                List<double> coeffList = new List<double>();
-
-                var dataTable = FunctionalParamsGridView.DataSource as DataTable;
-                try
-                {
-                    foreach (var col in dataTable.Columns)
-                    {
-                        if (col.ToString() != "Степени")
-                        {
-                            var tmpCoeff = Convert.ToDouble(dataTable.Rows[0][col.ToString()]);
-                            coeffList.Add(tmpCoeff);
-                        }
-                    }
-                }
-                catch(Exception ex)
-                {
-                    throw ex;
-                }
-                coeffList.Reverse();
-                FunctionalsFormat.PolinomialFunctionalFormat.Coeff = coeffList.ToArray();
-            }
-
-
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -84,42 +42,49 @@ namespace TOOP_Optimize
             Close();
         }
 
-
-        public DataTable GetDataTableForSpline(int degreeOfPolynom)
+        private void LoadButton_Click(object sender, EventArgs e)
         {
-            DataTable dataTable = new DataTable();
-            dataTable.Columns.Add("Степени", typeof(string));
-            dataTable.Columns["Степени"].ReadOnly = true;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "json files (*.json)|*.json";
 
-            var degreeCount = degreeOfPolynom;
-            for (int i = 0; i < degreeCount + 1; i++)
+            string textJson = "";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                dataTable.Columns.Add((degreeCount - i).ToString(), typeof(double));
+                string filename = openFileDialog.FileName;
+                textJson = System.IO.File.ReadAllText(filename);
             }
-            dataTable.Rows.Add("Значения");
-            return dataTable;
-        }
 
-        private void PolynomDegreeComboBox_SelectedValueChanged(object sender, EventArgs e)
-        {
-            if (PolynomDegreeComboBox.Visible == false)
+            if (!IsCheckJsonFile(textJson))
+            {
+                MessageBox.Show("Загружен неподходящий файл!");
                 return;
+            }
 
-            var tmpDataTable = FunctionalParamsGridView.DataSource as DataTable;
-            FunctionalParamsGridView.DataSource = null;
-
-            var degreeCount = int.Parse(PolynomDegreeComboBox.SelectedItem.ToString());
-            var dataTable = GetDataTableForSpline(degreeCount);
-
-            // TODO исправить
-            //var columns = dataTable.Columns;
-            //columns.Remove("Степени");
-
-            foreach (var col in dataTable.Columns)
-                if (col.ToString() != "Степени" && tmpDataTable.Columns.Contains(col.ToString()))
-                    dataTable.Rows[0][col.ToString()] = tmpDataTable.Rows[0][col.ToString()];
-
-            FunctionalParamsGridView.DataSource = dataTable;
+            FileViewLabel.Text = textJson;
+            JsonFile = textJson;
+            MessageBox.Show("Файл загружен!");
         }
+
+        private bool IsCheckJsonFile(string textJson)
+        {
+            JObject jObject = null;
+            try
+            {
+                jObject = JsonConvert.DeserializeObject<JObject>(textJson);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message); // нормально ли?
+                return false;
+            }
+            var createType = ClassCollector.FunctionalsTypes.Find(x => x.Name == ObjectName);
+            var FunctionalConstructorsParams = createType.GetConstructors().FirstOrDefault().GetParameters();
+
+            foreach (var param in FunctionalConstructorsParams)
+                if (jObject[param.Name] == null)
+                    return false;
+            return true;
+        }
+
     }
 }

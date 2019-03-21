@@ -28,7 +28,11 @@ namespace TOOP_Optimize
             ObjectName = objectName;
             OptimizersFormat = new OptimizersFormat();
 
-            // TODO To method
+            TableFormation();
+        }
+
+        private void TableFormation()
+        {
             DataTable dataTable = new DataTable();
             dataTable.Columns.Add("Параметры", typeof(string));
             dataTable.Columns.Add("Значения", typeof(double));
@@ -39,14 +43,11 @@ namespace TOOP_Optimize
             dataTable.Rows.Add("MaxTime", 120);
 
             ParamsGridView.DataSource = dataTable;
-
-
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
             var dataTable = ParamsGridView.DataSource as DataTable;
-            DateTime maxTime = new DateTime(); // посмотреть, что будет
 
             double eps = 1E-6;
             double seconds = 120;
@@ -60,6 +61,14 @@ namespace TOOP_Optimize
                 throw ex;
             }
 
+            CheckAndAssigmentParams(eps, seconds);
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void CheckAndAssigmentParams(double eps, double seconds)
+        {
+            DateTime maxTime = new DateTime(); 
             if (eps > 0 && eps < 1)
                 OptimizersFormat.Eps = eps;
             if (seconds > 0)
@@ -67,9 +76,6 @@ namespace TOOP_Optimize
                 maxTime.AddSeconds(seconds);
                 OptimizersFormat.MaxTime = maxTime;
             }
-
-            DialogResult = DialogResult.OK;
-            Close();
         }
 
         private void CancelButton_Click(object sender, EventArgs e)

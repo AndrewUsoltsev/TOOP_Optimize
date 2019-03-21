@@ -19,10 +19,7 @@ namespace TOOP_Optimize
         public List<string> Functionals = new List<string>();
         public List<string> Optimizers = new List<string>();
 
-        FunctionalsFabric functionalsFabric = new FunctionalsFabric();
-        OptimizersFabric optimizersFabric = new OptimizersFabric();
-
-        FunctionalsFormat functionalsFormat = new FunctionalsFormat();
+        string functionalsData = "";
         OptimizersFormat optimizersFormat = new OptimizersFormat();
 
 
@@ -30,8 +27,8 @@ namespace TOOP_Optimize
         {
             InitializeComponent();
 
-            Functionals.AddRange(new List<string>(){ "Polinomial", "rozenbrok"});
-            Optimizers.AddRange(new List<string>() { "GoldenRatio", "GradientDescent", "RandomSearch" });
+            Functionals.AddRange(new List<string>(ClassCollector.FunctionalsTypes.Select(x=>x.Name)));
+            Optimizers.AddRange(new List<string>(ClassCollector.OptimizersTypes.Select(x => x.Name)));
 
             FunctionalComboBox.DataSource = Functionals;
             OptimizerComboBox.DataSource  = Optimizers;
@@ -43,7 +40,7 @@ namespace TOOP_Optimize
             settingsForm.ShowDialog();
             if (settingsForm.DialogResult == DialogResult.OK)
             {
-                functionalsFormat = settingsForm.FunctionalsFormat;
+                functionalsData = settingsForm.JsonFile;
             }
         }
 
@@ -64,23 +61,21 @@ namespace TOOP_Optimize
             {
                 x = Convert.ToDouble(InitialVectorTextBox.Text.ToString());
 
-
                 double[] initialVector = new double[] { x };
                 IFunctional functional = null;
                 IOptimizer optimizer = null;
 
-                functional = functionalsFabric
+                functional = FunctionalsFabric
                     .GetFunctional(
                     FunctionalComboBox.SelectedItem.ToString(),
-                    functionalsFormat);
+                    functionalsData);
 
-                optimizer = optimizersFabric
+                optimizer = OptimizersFabric
                     .GetOptimizer(
                     OptimizerComboBox.SelectedItem.ToString(),
                     functional,
                     optimizersFormat.MaxTime,
                     optimizersFormat.Eps);
-
 
                 var result = optimizer.Optimize(initialVector, null);
                 MessageBox.Show(string.Join("\n", result));
@@ -91,6 +86,11 @@ namespace TOOP_Optimize
             }
 
             
+        }
+
+        private void FunctionalComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            functionalsData = null;
         }
     }
 }
