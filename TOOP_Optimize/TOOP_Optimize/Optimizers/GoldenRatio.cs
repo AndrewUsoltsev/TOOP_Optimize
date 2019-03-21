@@ -41,6 +41,5 @@ namespace TOOP_Optimize.Optimizers
 
         public double Eps { get; set; }
         public DateTime MaxTime { get; set; }
-        IFunctionalWithDiff IOptimizer.functional { set => throw new NotImplementedException(); }
     }
 }
