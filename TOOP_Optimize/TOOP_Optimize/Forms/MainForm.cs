@@ -63,32 +63,34 @@ namespace TOOP_Optimize
             try
             {
                 x = Convert.ToDouble(InitialVectorTextBox.Text.ToString());
+
+
+                double[] initialVector = new double[] { x };
+                IFunctional functional = null;
+                IOptimizer optimizer = null;
+
+                functional = functionalsFabric
+                    .GetFunctional(
+                    FunctionalComboBox.SelectedItem.ToString(),
+                    functionalsFormat);
+
+                optimizer = optimizersFabric
+                    .GetOptimizer(
+                    OptimizerComboBox.SelectedItem.ToString(),
+                    functional,
+                    optimizersFormat.MaxTime,
+                    optimizersFormat.Eps);
+
+
+                var result = optimizer.Optimize(initialVector, null);
+                MessageBox.Show(string.Join("\n", result));
             }
             catch (Exception ex)
             {
-                throw ex;
+                MessageBox.Show(ex.Message);
             }
 
-            double[] initialVector = new double[] { x };
-            IFunctional functional = null;
-            IOptimizer optimizer = null;
-
-            functional = functionalsFabric
-                .GetFunctional(
-                FunctionalComboBox.SelectedItem.ToString(),
-                functionalsFormat);
-
-            optimizer = optimizersFabric
-                .GetOptimizer(
-                OptimizerComboBox.SelectedItem.ToString(), 
-                functional, 
-                optimizersFormat.MaxTime,
-                optimizersFormat.Eps);
-
-
-            var result =  optimizer.Optimize(initialVector, null );
-
-            MessageBox.Show(string.Join("\n", result));
+            
         }
     }
 }

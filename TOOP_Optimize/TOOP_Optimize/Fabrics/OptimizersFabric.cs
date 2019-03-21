@@ -41,20 +41,28 @@ namespace TOOP_Optimize.Fabrics
             var t = typeof(IOptimizer);
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
-                .Where(p => t.IsAssignableFrom(p))
+                .Where(p => t.IsAssignableFrom(p) && p.IsClass)
                 .ToList();
-
-            switch (type)
-            {
-                case "GoldenRatio":
-                    return new GoldenRatio();
-                case "GradientDescent":
-                    return new GradientDescent(functionalWithDiff, maxTime, eps);
-                case "RandomSearch":
-                    return new RandomSearch(functionalWithDiff, maxTime, eps);
-                default:
-                    return new GoldenRatio();
-            }
+            var createType = types.Find(x => x.Name == type);
+            //functionalWithDiff, maxTime, eps
+            var typeConstructor = createType
+                .GetConstructor(new[] { typeof(IFunctional), typeof(DateTime), typeof(double) });
+            if (typeConstructor == null)
+                throw new Exception("Невозможно создать оптимизатор с заданными параметрами!");
+            return (IOptimizer)typeConstructor.Invoke(new object[] { functionalWithDiff, maxTime, eps });
+            //types.Remove(IOptimizer);
+            // get constructor
+            //switch (type)
+            //{
+            //    case "GoldenRatio":
+            //        return new GoldenRatio();
+            //    case "GradientDescent":
+            //        return new GradientDescent(functionalWithDiff, maxTime, eps);
+            //    case "RandomSearch":
+            //        return new RandomSearch(functionalWithDiff, maxTime, eps);
+            //    default:
+            //        return new GoldenRatio();
+            //}
         }
 
     }
