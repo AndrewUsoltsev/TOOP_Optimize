@@ -13,7 +13,7 @@ namespace TOOP_Optimize.Fabrics
     {
         public IFunctional GetPolinomialFunctional(double[] coeff)
         {
-            return new Polinomial(coeff);
+            return new Polinomial(0, 10, coeff);
         }
 
        
@@ -22,7 +22,7 @@ namespace TOOP_Optimize.Fabrics
             switch (type)
             {
                 case "Polinomial":
-                    return new Polinomial(functionalsFormat.PolinomialFunctionalFormat.Coeff);
+                    return new Polinomial(0, 10, functionalsFormat.PolinomialFunctionalFormat.Coeff);
                 default:
                     return null;
             }
