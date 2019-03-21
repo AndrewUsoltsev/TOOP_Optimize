@@ -58,6 +58,7 @@
             // 
             // LoadButton
             // 
+            this.LoadButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.LoadButton.Location = new System.Drawing.Point(123, 30);
             this.LoadButton.Name = "LoadButton";
             this.LoadButton.Size = new System.Drawing.Size(79, 44);
@@ -84,8 +85,9 @@
             this.Controls.Add(this.LoadButton);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SaveButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FunctionalsSettingsForm";
-            this.Text = "SettingsForm";
+            this.Text = "Настройка функционала";
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -134,6 +134,7 @@
             // 
             // InitialVectorTextBox
             // 
+            this.InitialVectorTextBox.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.InitialVectorTextBox.Location = new System.Drawing.Point(222, 219);
             this.InitialVectorTextBox.Name = "InitialVectorTextBox";
             this.InitialVectorTextBox.Size = new System.Drawing.Size(100, 20);
@@ -154,6 +155,7 @@
             this.Controls.Add(this.OptimizerComboBox);
             this.Controls.Add(this.FunctionalComboBox);
             this.Controls.Add(this.ProcessStartButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "MainForm";
             this.Text = "Оптимизатор функционала";
             this.ResumeLayout(false);

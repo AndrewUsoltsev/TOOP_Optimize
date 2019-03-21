@@ -56,12 +56,13 @@ namespace TOOP_Optimize
 
         private void ProcessStartButton_Click(object sender, EventArgs e)
         {
-            double x = 0;
+            List<double> initialVector = new List<double>();
             try
             {
-                x = Convert.ToDouble(InitialVectorTextBox.Text.ToString());
+                var parseString = InitialVectorTextBox.Text.ToString().Split(' ');
+                for (int i = 0; i < parseString.Length; i++)
+                    initialVector.Add(Convert.ToDouble(parseString[i]));
 
-                double[] initialVector = new double[] { x };
                 IFunctional functional = null;
                 IOptimizer optimizer = null;
 
@@ -77,12 +78,12 @@ namespace TOOP_Optimize
                     optimizersFormat.MaxTime,
                     optimizersFormat.Eps);
 
-                var result = optimizer.Optimize(initialVector, null);
+                var result = optimizer.Optimize(initialVector.ToArray(), null);
                 MessageBox.Show(string.Join("\n", result));
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"{ex.StackTrace}\n {ex.Message}");
             }
 
             

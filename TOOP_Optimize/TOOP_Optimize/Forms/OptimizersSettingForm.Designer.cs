@@ -75,8 +75,9 @@
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.ParamsGridView);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "OptimizersSettingForm";
-            this.Text = "OptimizersSettingForm";
+            this.Text = "Настройка оптимизатора";
             ((System.ComponentModel.ISupportInitialize)(this.ParamsGridView)).EndInit();
             this.ResumeLayout(false);
 
