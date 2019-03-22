@@ -11,10 +11,11 @@ namespace TOOP_Optimize.Optimizers
     public class NelderMead : IOptimizer
     {
 
-        public NelderMead(IFunctional functional)
+        public NelderMead(IFunctional functional, DateTime maxTime, double eps)
         {
             this.functional = functional;
-            this.Eps = 10e-8;
+            this.Eps = eps;
+            this.MaxTime = maxTime;
         }
 
         public IFunctional functional { get; set; }
@@ -27,6 +28,9 @@ namespace TOOP_Optimize.Optimizers
         public double[] Optimize(double[] initial,
             IProgress<(double[] current, double residual, int progresslen, int progressval)> progress)
         {
+            var residual = 0.0;
+            var residualLastIter = 0.0;
+            var lastVal = 0;
             double[] functionValues = new double[initial.Length + 1];
             var simplex = InitializeStartSimplex(initial);
             var N = initial.Length;
@@ -51,13 +55,27 @@ namespace TOOP_Optimize.Optimizers
                     centroid[i] /= N;
                 }
 
-                var tmp = Math.Abs(functionValues[N] - functionValues[0]);
-                if (tmp < Eps)
+                if (Math.Abs(residual) > Eps)
+                {
+                    residualLastIter = residual;
+                }
+                residual = Math.Abs(functionValues[N] - functionValues[0]);
+                if (residual < Eps)
                 {
                     break;
                 }
 
-                // Reflection
+                var val = (int)(100 - Math.Abs(residual - residualLastIter) * 100);
+
+                if (val > lastVal)
+                {
+                    progress.Report((simplex[0], residual, 100, val));
+                    lastVal = val;
+                }
+                else
+                    progress.Report((simplex[0], residual, 100, lastVal));
+
+
                 double[] reflectionPoint = new double[initial.Length];
                 for (int i = 0; i < initial.Length; i++)
                 {
