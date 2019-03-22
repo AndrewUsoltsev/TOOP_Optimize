@@ -9,11 +9,11 @@ using TOOP_Optimize.Interfaces;
 
 namespace TOOP_Optimize.Optimizers
 {
-    class F : IFunctionalWithDiff
+    public class F : IFunctionalWithDiff
     {
         public F()
         {
-            Range = new[] {(-10.0, 10.0)};
+            Range = new[] { (10.0, 20.0) };
         }
 
         public double Value(double[] parameters)
@@ -36,22 +36,19 @@ namespace TOOP_Optimize.Optimizers
 
     public class GradientDescent : IOptimizer
     {
-        public IFunctionalWithDiff functional { get; set; }
-
         private int FuncArguments => functional.Range.Length;
 
         private bool AtRange(double[] point)
         {
             return functional.Range.Where((range, i) => point[i] < range.min || point[i] > range.max).Any();
         }
-        // Нужно находить из условия минимизации, а не задавать от балды 
         private double alpha { get; set; } = 0.01;
 
         public double Eps { get; set; }
 
         public DateTime MaxTime { get; set; }
 
-        IFunctional IOptimizer.functional { set => throw new NotImplementedException(); }
+        public IFunctional functional { set; get; }
 
         public GradientDescent(IFunctional func, DateTime maxTime, double eps)
         {
@@ -67,10 +64,10 @@ namespace TOOP_Optimize.Optimizers
                 throw new ArgumentException(@"Initial array has wrong demension.", nameof(initial));
             }
 
-            //if (progress == null)
-            //{
-            //    throw new ArgumentNullException(nameof(progress));
-            //}
+            if (progress == null)
+            {
+                throw new ArgumentNullException(nameof(progress));
+            }
 
             if (initial == null)
             {
@@ -78,9 +75,10 @@ namespace TOOP_Optimize.Optimizers
             }
 
             var currentPoint = initial;
+            double residualLastIter = 0.0;
             var time = new Stopwatch();
             var newPoint = new double[initial.Length];
-
+            double residual = 0.0;
             time.Start();
             while (true)
             {
@@ -89,8 +87,7 @@ namespace TOOP_Optimize.Optimizers
                 for (var i = 0; i < currentPoint.Length; i++)
                 {
                     var value = currentPoint[i];
-                    newPoint[i] = value - alpha * functional.DfDp(i, currentPoint);
-                    //Возможно, стоит делать эту проверку на область в цикле
+                    newPoint[i] = value - alpha * ((IFunctionalWithDiff)functional).DfDp(i, currentPoint);
                 }
 
                 if (AtRange(newPoint))
@@ -101,15 +98,32 @@ namespace TOOP_Optimize.Optimizers
 
                 var newValue = functional.Value(newPoint);
 
-                if (Math.Abs(currentValue - newValue) <= Eps)
+                if (residual > Eps)
+                {
+                    residualLastIter = residual;
+                }
+
+                residual = Math.Abs(currentValue - newValue);
+                
+                if (residual <= Eps)
                     return newPoint;
 
                 if (MaxTime.Ticks - time.ElapsedTicks < 0)
                     return newPoint;
 
+                
                 currentPoint = (double[])newPoint.Clone();
+                int val;
+                if (Math.Abs(residualLastIter) < Eps)
+                {
+                    val = 0;
+                }
+                else
+                {
+                    val = (int)(100 - Math.Abs(residual - residualLastIter) * 100);
+                }
 
-                // progress.Report(currentPoint, Eps, iterNum);
+                progress.Report((currentPoint, residual, 100, val));
             }
         }
     }
