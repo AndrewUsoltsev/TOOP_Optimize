@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,11 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassCollector.cs" />
     <Compile Include="Extension\RandomExtension.cs" />
     <Compile Include="Fabrics\FunctionalsFabric.cs" />
     <Compile Include="Fabrics\OptimizersFabric.cs" />
-    <Compile Include="Formats\FunctionalsFormat.cs" />
     <Compile Include="Formats\OptimizersFormat.cs" />
+    <Compile Include="Functionals\LSM.cs" />
     <Compile Include="Functionals\Polinomial.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -59,6 +63,7 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Functionals\Spline.cs" />
     <Compile Include="Interfaces\Interfaces.cs" />
     <Compile Include="Forms\OptimizersSettingForm.cs">
       <SubType>Form</SubType>
@@ -97,6 +102,7 @@
     <EmbeddedResource Include="Forms\FunctionalsSettingsForm.resx">
       <DependentUpon>FunctionalsSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -60,6 +60,7 @@
             this.FunctionalComboBox.Name = "FunctionalComboBox";
             this.FunctionalComboBox.Size = new System.Drawing.Size(121, 21);
             this.FunctionalComboBox.TabIndex = 1;
+            this.FunctionalComboBox.SelectedIndexChanged += new System.EventHandler(this.FunctionalComboBox_SelectedIndexChanged);
             // 
             // OptimizerComboBox
             // 
