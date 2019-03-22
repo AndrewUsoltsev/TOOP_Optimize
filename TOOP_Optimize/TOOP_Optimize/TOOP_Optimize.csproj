@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="Optimizers\GoldenRatio.cs" />
     <Compile Include="Optimizers\GradientDescent.cs" />
+    <Compile Include="Optimizers\NelderMead.cs" />
     <Compile Include="Optimizers\RandomSearch.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

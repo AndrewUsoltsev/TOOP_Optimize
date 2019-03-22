@@ -9,16 +9,16 @@ using TOOP_Optimize.Interfaces;
 
 namespace TOOP_Optimize.Optimizers
 {
-    class F : IFunctionalWithDiff
+    public class F : IFunctionalWithDiff
     {
         public F()
         {
-            Range = new[] {(-10.0, 10.0)};
+            Range = new[] {(-10.0, 10.0), (-10.0, 10.0) };
         }
 
         public double Value(double[] parameters)
         {
-            return parameters[0] * parameters[0] + 1;
+            return parameters[0] * parameters[1] + 1;
         }
 
         public (double min, double max)[] Range { get; }
