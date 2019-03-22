@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
@@ -41,14 +42,13 @@ namespace TOOP_Optimize.Optimizers
                 throw new ArgumentNullException(nameof(progress));
             }
 
-
             var residual = 0.0;
             var residualLastIter = 0.0;
             var lastVal = 0;
             double[] functionValues = new double[initial.Length + 1];
             var simplex = InitializeStartSimplex(initial);
             var N = initial.Length;
-
+            var time = new Stopwatch();
             while (true)
             {
                 for (int i = 0; i < simplex.GetLength(0); i++)
@@ -80,6 +80,8 @@ namespace TOOP_Optimize.Optimizers
                 else
                     progress.Report((simplex[0], residual, 100, lastVal));
 
+                if (MaxTime.Ticks - time.ElapsedTicks < 0)
+                    return simplex[0];
 
                 double reflectionValue = Reflection(N, centroid, simplex, out var reflectionPoint);
 
