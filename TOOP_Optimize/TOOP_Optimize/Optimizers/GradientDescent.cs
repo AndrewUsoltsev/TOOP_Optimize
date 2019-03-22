@@ -13,12 +13,12 @@ namespace TOOP_Optimize.Optimizers
     {
         public F()
         {
-            Range = new[] {(10.0, 20.0), (10.0, 20.0) };
+            Range = new[] { (10.0, 20.0) };
         }
 
         public double Value(double[] parameters)
         {
-            return parameters[0] * parameters[1] + 1;
+            return parameters[0] * parameters[0] + 1;
         }
 
         public (double min, double max)[] Range { get; }
@@ -75,9 +75,10 @@ namespace TOOP_Optimize.Optimizers
             }
 
             var currentPoint = initial;
+            double residualLastIter = 0.0;
             var time = new Stopwatch();
             var newPoint = new double[initial.Length];
-
+            double residual = 0.0;
             time.Start();
             while (true)
             {
@@ -97,15 +98,32 @@ namespace TOOP_Optimize.Optimizers
 
                 var newValue = functional.Value(newPoint);
 
-                if (Math.Abs(currentValue - newValue) <= Eps)
+                if (residual > Eps)
+                {
+                    residualLastIter = residual;
+                }
+
+                residual = Math.Abs(currentValue - newValue);
+                
+                if (residual <= Eps)
                     return newPoint;
 
                 if (MaxTime.Ticks - time.ElapsedTicks < 0)
                     return newPoint;
 
+                
                 currentPoint = (double[])newPoint.Clone();
+                int val;
+                if (Math.Abs(residualLastIter) < Eps)
+                {
+                    val = 0;
+                }
+                else
+                {
+                    val = (int)(100 - Math.Abs(residual - residualLastIter) * 100);
+                }
 
-                // progress.Report(currentPoint, Eps, iterNum);
+                progress.Report((currentPoint, residual, 100, val));
             }
         }
     }
