@@ -11,6 +11,7 @@ using TOOP_Optimize.Formats;
 using TOOP_Optimize.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Reflection;
 
 namespace TOOP_Optimize
 {
@@ -22,12 +23,24 @@ namespace TOOP_Optimize
         }
 
         private string ObjectName { get; set; }
+        private ParameterInfo[] FunctionalConstructorsParams { get; set; }
         public string JsonFile { get; private set; }
 
         public FunctionalsSettingsForm(string objectName)
         {
             InitializeComponent();
             ObjectName = objectName;
+            var createType = ClassCollector.FunctionalsTypes.Find(x => x.Name == ObjectName);
+            FunctionalConstructorsParams = createType.GetConstructors().FirstOrDefault().GetParameters();
+            UpdateLabel();
+        }
+
+        private void UpdateLabel()
+        {
+            string textLabel = "Необходимые параметры:";
+            foreach (var param in FunctionalConstructorsParams)
+                textLabel = string.Concat(textLabel, $"\n{param.ParameterType.Name} {param.Name}");
+            FileViewLabel.Text = textLabel;
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
@@ -77,9 +90,7 @@ namespace TOOP_Optimize
                 MessageBox.Show(ex.Message); // нормально ли?
                 return false;
             }
-            var createType = ClassCollector.FunctionalsTypes.Find(x => x.Name == ObjectName);
-            var FunctionalConstructorsParams = createType.GetConstructors().FirstOrDefault().GetParameters();
-
+           
             foreach (var param in FunctionalConstructorsParams)
                 if (jObject[param.Name] == null)
                     return false;

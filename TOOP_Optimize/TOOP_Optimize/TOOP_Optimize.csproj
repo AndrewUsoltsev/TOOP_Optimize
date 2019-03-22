@@ -63,6 +63,8 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Functionals\PolinomialWithDiff.cs" />
+    <Compile Include="Functionals\SimpeFunctional.cs" />
     <Compile Include="Functionals\Spline.cs" />
     <Compile Include="Interfaces\Interfaces.cs" />
     <Compile Include="Forms\OptimizersSettingForm.cs">
@@ -71,7 +73,6 @@
     <Compile Include="Forms\OptimizersSettingForm.Designer.cs">
       <DependentUpon>OptimizersSettingForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Optimizers\GoldenRatio.cs" />
     <Compile Include="Optimizers\GradientDescent.cs" />
     <Compile Include="Optimizers\NelderMead.cs" />
     <Compile Include="Optimizers\RandomSearch.cs" />

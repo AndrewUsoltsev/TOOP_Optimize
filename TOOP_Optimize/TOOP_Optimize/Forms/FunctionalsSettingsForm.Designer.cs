@@ -70,7 +70,7 @@
             // FileViewLabel
             // 
             this.FileViewLabel.AutoSize = true;
-            this.FileViewLabel.Location = new System.Drawing.Point(153, 126);
+            this.FileViewLabel.Location = new System.Drawing.Point(99, 126);
             this.FileViewLabel.Name = "FileViewLabel";
             this.FileViewLabel.Size = new System.Drawing.Size(10, 13);
             this.FileViewLabel.TabIndex = 6;

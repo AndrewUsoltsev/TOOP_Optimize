@@ -15,13 +15,13 @@ namespace TOOP_Optimize
 {
     public partial class MainForm : Form
     {
-        // View
         public List<string> Functionals = new List<string>();
         public List<string> Optimizers = new List<string>();
 
         string functionalsData = "";
         OptimizersFormat optimizersFormat = new OptimizersFormat();
 
+        public Progress<(double[] current, double residual, int progresslen, int progressval)> Progress;
 
         public MainForm()
         {
@@ -32,6 +32,16 @@ namespace TOOP_Optimize
 
             FunctionalComboBox.DataSource = Functionals;
             OptimizerComboBox.DataSource  = Optimizers;
+
+            Progress = new Progress<(double[] current, double residual, int progresslen, int progressval)>();
+            Progress.ProgressChanged += Progress_ProgressChanged;
+        }
+
+        private void Progress_ProgressChanged(object sender, (double[] current, double residual, int progresslen, int progressval) e)
+        {
+            SolveProgressBar.Maximum = e.progresslen;
+            SolveProgressBar.Value = e.progresslen;
+            ResidualLabel.Text = $"Невязка: {e.residual}";
         }
 
         private void FunctionalSettings_Click(object sender, EventArgs e)
@@ -56,6 +66,8 @@ namespace TOOP_Optimize
 
         private void ProcessStartButton_Click(object sender, EventArgs e)
         {
+            SolveProgressBar.Value = 0;
+            ResidualLabel.Text = "Невязка:";
             List<double> initialVector = new List<double>();
             try
             {
@@ -78,15 +90,13 @@ namespace TOOP_Optimize
                     optimizersFormat.MaxTime,
                     optimizersFormat.Eps);
 
-                var result = optimizer.Optimize(initialVector.ToArray(), null);
+                var result = optimizer.Optimize(initialVector.ToArray(), Progress);
                 MessageBox.Show(string.Join("\n", result));
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"{ex.StackTrace}\n {ex.Message}");
             }
-
-            
         }
 
         private void FunctionalComboBox_SelectedIndexChanged(object sender, EventArgs e)

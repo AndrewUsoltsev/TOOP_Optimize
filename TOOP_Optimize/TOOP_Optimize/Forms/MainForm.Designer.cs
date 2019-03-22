@@ -35,9 +35,10 @@
             this.OptimizerSettings = new System.Windows.Forms.Button();
             this.FunctionalLabel = new System.Windows.Forms.Label();
             this.OptimizerLabel = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.SolveProgressBar = new System.Windows.Forms.ProgressBar();
             this.InitialLabel = new System.Windows.Forms.Label();
             this.InitialVectorTextBox = new System.Windows.Forms.TextBox();
+            this.ResidualLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // ProcessStartButton
@@ -114,13 +115,13 @@
             this.OptimizerLabel.TabIndex = 6;
             this.OptimizerLabel.Text = "Оптимизатор";
             // 
-            // progressBar1
+            // SolveProgressBar
             // 
-            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar1.Location = new System.Drawing.Point(0, 427);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(618, 23);
-            this.progressBar1.TabIndex = 7;
+            this.SolveProgressBar.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.SolveProgressBar.Location = new System.Drawing.Point(0, 427);
+            this.SolveProgressBar.Name = "SolveProgressBar";
+            this.SolveProgressBar.Size = new System.Drawing.Size(618, 23);
+            this.SolveProgressBar.TabIndex = 7;
             // 
             // InitialLabel
             // 
@@ -140,14 +141,24 @@
             this.InitialVectorTextBox.Size = new System.Drawing.Size(100, 20);
             this.InitialVectorTextBox.TabIndex = 9;
             // 
+            // ResidualLabel
+            // 
+            this.ResidualLabel.AutoSize = true;
+            this.ResidualLabel.Location = new System.Drawing.Point(12, 401);
+            this.ResidualLabel.Name = "ResidualLabel";
+            this.ResidualLabel.Size = new System.Drawing.Size(54, 13);
+            this.ResidualLabel.TabIndex = 10;
+            this.ResidualLabel.Text = "Невязка:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(618, 450);
+            this.Controls.Add(this.ResidualLabel);
             this.Controls.Add(this.InitialVectorTextBox);
             this.Controls.Add(this.InitialLabel);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.SolveProgressBar);
             this.Controls.Add(this.OptimizerLabel);
             this.Controls.Add(this.FunctionalLabel);
             this.Controls.Add(this.OptimizerSettings);
@@ -171,9 +182,10 @@
         private System.Windows.Forms.Button OptimizerSettings;
         private System.Windows.Forms.Label FunctionalLabel;
         private System.Windows.Forms.Label OptimizerLabel;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar SolveProgressBar;
         private System.Windows.Forms.Label InitialLabel;
         private System.Windows.Forms.TextBox InitialVectorTextBox;
+        private System.Windows.Forms.Label ResidualLabel;
     }
 }
 

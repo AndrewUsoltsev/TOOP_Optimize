@@ -9,31 +9,6 @@ using TOOP_Optimize.Interfaces;
 
 namespace TOOP_Optimize.Optimizers
 {
-    public class F : IFunctionalWithDiff
-    {
-        public F()
-        {
-            Range = new[] { (10.0, 20.0) };
-        }
-
-        public double Value(double[] parameters)
-        {
-            return parameters[0] * parameters[0] + 1;
-        }
-
-        public (double min, double max)[] Range { get; }
-
-        public double DfDp(int i, double[] parameters)
-        {
-            if (i == 0)
-            {
-                return 2 * parameters[0];
-            }
-
-            throw new ArgumentOutOfRangeException(nameof(i));
-        }
-    }
-
     public class GradientDescent : IOptimizer
     {
         private int FuncArguments => functional.Range.Length;
