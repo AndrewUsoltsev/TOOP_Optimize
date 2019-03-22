@@ -66,8 +66,10 @@ namespace TOOP_Optimize.Optimizers
         {
             rnd = new Random();
             var min = functional.Value(initial);
+            var deltaRangeInit = Math.Abs(Range[0].max - Range[0].min);
             var time = new Stopwatch();
             double[] point = new double[initial.Length];
+
             time.Start();
             while (true)
             {
@@ -95,6 +97,9 @@ namespace TOOP_Optimize.Optimizers
                     if (MaxTime.Ticks - time.ElapsedTicks < 0)
                         return point;
                 }
+                var val = (int)((100 - Math.Abs(Range[0].max - Range[0].min) / deltaRangeInit * 100));
+                progress.Report((point, Math.Abs(Range[0].max - Range[0].min), 100, val));
+
             }
         }
 
