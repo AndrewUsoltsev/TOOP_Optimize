@@ -19,6 +19,8 @@ namespace TOOP_Optimize.Optimizers
             this.MaxTime = maxTime;
         }
 
+        private int N => functional.Range.Length;
+
         public double Eps { get; set; }
         public DateTime MaxTime { get; set; }
         public IFunctional functional { get; set; }
@@ -47,8 +49,8 @@ namespace TOOP_Optimize.Optimizers
             var lastVal = 0;
             double[] functionValues = new double[initial.Length + 1];
             var simplex = InitializeStartSimplex(initial);
-            var N = initial.Length;
             var time = new Stopwatch();
+            time.Start();
             while (true)
             {
                 for (int i = 0; i < simplex.GetLength(0); i++)
@@ -83,7 +85,7 @@ namespace TOOP_Optimize.Optimizers
                 if (MaxTime.Ticks - time.ElapsedTicks < 0)
                     return simplex[0];
 
-                double reflectionValue = Reflection(N, centroid, simplex, out var reflectionPoint);
+                double reflectionValue = Reflection(centroid, simplex, out var reflectionPoint);
 
                 if (reflectionValue >= functionValues[0] && reflectionValue < functionValues[N - 1])
                 {
@@ -93,7 +95,7 @@ namespace TOOP_Optimize.Optimizers
 
                 if (reflectionValue < functionValues[0])
                 {
-                    double expansionValue = Expansion(N, centroid, simplex, reflectionPoint, out var expansionPoint);
+                    double expansionValue = Expansion(centroid, simplex, reflectionPoint, out var expansionPoint);
 
                     if (expansionValue < reflectionValue)
                     {
@@ -107,7 +109,7 @@ namespace TOOP_Optimize.Optimizers
                     continue;
                 }
 
-                double contractionValue = Contraction(N, centroid, simplex, out var contractionPoint);
+                double contractionValue = Contraction(centroid, simplex, out var contractionPoint);
 
                 if (contractionValue < functionValues[N])
                 {
@@ -142,7 +144,7 @@ namespace TOOP_Optimize.Optimizers
             }
         }
 
-        private double Reflection(int N, double[] centroid, double[][] simplex, out double[] reflectionPoint)
+        private double Reflection(double[] centroid, double[][] simplex, out double[] reflectionPoint)
         {
             reflectionPoint = new double[N];
             for (int i = 0; i < N; i++)
@@ -153,7 +155,7 @@ namespace TOOP_Optimize.Optimizers
             return functional.Value(reflectionPoint);
         }
 
-        private double Expansion(int N, double[] centroid, double[][] simplex, 
+        private double Expansion(double[] centroid, double[][] simplex, 
             double[] reflectionPoint, out double[] expansionPoint)
         {
             expansionPoint = new double[N];
@@ -165,7 +167,7 @@ namespace TOOP_Optimize.Optimizers
             return functional.Value(expansionPoint);
         }
 
-        private double Contraction(int N, double[] centroid, double[][] simplex, out double[] contractionPoint)
+        private double Contraction(double[] centroid, double[][] simplex, out double[] contractionPoint)
         {
             contractionPoint = new double[N];
             for (int i = 0; i < N; i++)
@@ -180,28 +182,25 @@ namespace TOOP_Optimize.Optimizers
         {
             double[][] startSimplex = new double[initial.Length + 1][];
             startSimplex[0] = initial;
+            var zero = 0.00025;
+            var notZero = 0.05; 
             for (int i = 1; i < initial.Length + 1; i++)
             {
                 startSimplex[i] = new double[initial.Length];
                 for (int j = 0; j < initial.Length; j++)
                 {
-                    if (Math.Abs(initial[j]) < 10e-8)
+                    if (Math.Abs(initial[j]) < Eps)
                     {
-                        startSimplex[i][j] += startSimplex[i - 1][j] + 0.00025;
+                        startSimplex[i][j] += startSimplex[i - 1][j] + zero;
                     }
                     else
                     {
-                        startSimplex[i][j] += startSimplex[i - 1][j] + 0.05;
+                        startSimplex[i][j] += startSimplex[i - 1][j] + notZero;
                     }
                 }
             }
 
             return startSimplex;
-        }
-
-        private bool AtRange(double[] point)
-        {
-            return functional.Range.Where((range, i) => point[i] < range.min || point[i] > range.max).Any();
         }
     }
 }

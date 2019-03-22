@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using TOOP_Optimize.Extension;
 using TOOP_Optimize.Interfaces;
@@ -21,7 +22,7 @@ namespace TOOP_Optimize.Optimizers
 
         private int FuncArguments => functional.Range.Length;
 
-        private int m { get;} = 10;
+        private int m { get;} = 100;
 
         private (double max, double min)[] Range { get; }
 
@@ -31,14 +32,15 @@ namespace TOOP_Optimize.Optimizers
             var rndPoint = new double[FuncArguments];
             for (var i = 0; i < FuncArguments; i++)
             {
-                rndPoint[i] = rnd.NextDouble(functionalRange[i].min, functionalRange[i].max);
+                rndPoint[i] = rnd.NextDouble(Range[i].min, Range[i].max);
             }
 
             return rndPoint;
         }
 
-        private double[] FindMinWithMRandomThrows(double min)
+        private double[] FindMinWithMRandomThrows(double min, double[] oldPoint)
         {
+            bool isChange = false;
             var point = new double[FuncArguments];
             for (var i = 0; i < m; i++)
             {
@@ -48,30 +50,50 @@ namespace TOOP_Optimize.Optimizers
                 {
                     min = value;
                     point = (double[])rndPoint.Clone();
+                    isChange = true;
                 }
             }
 
-            return point;
+            if (isChange)
+            {
+                return point;
+            }
+
+            return oldPoint;
         }
 
         public double[] Optimize(double[] initial, IProgress<(double[] current, double residual, int progresslen, int progressval)> progress)
         {
             rnd = new Random();
             var min = functional.Value(initial);
+            var time = new Stopwatch();
+            double[] point = new double[initial.Length];
+            time.Start();
             while (true)
             {
-                var point = FindMinWithMRandomThrows(min);
+                point = FindMinWithMRandomThrows(min, point);
                 min = functional.Value(point);
 
                 for (var i = 0; i < FuncArguments; i++)
                 {
-                    Range[i] = (point[i] - (Range[i].max - Range[i].min) / 2
-                        , point[i] + (Range[i].max - Range[i].min) / 2);
-
-                    if (Range[i].max - Range[i].min < Eps)
+                    var minRange = point[i] - (Range[i].max - Range[i].min) / 2;
+                    var maxRange = point[i] + (Range[i].max - Range[i].min) / 2;
+                    if (maxRange < functional.Range[i].max)
                     {
-                        return point;
+                        maxRange = functional.Range[i].min;
                     }
+
+                    if (minRange < functional.Range[i].min)
+                    {
+                        minRange = functional.Range[i].max;
+                    }
+                    Range[i] = (maxRange, minRange);
+
+                    if (Math.Abs(Range[i].max - Range[i].min) < Eps)
+                        return point;
+
+                    if (MaxTime.Ticks - time.ElapsedTicks < 0)
+                        return point;
                 }
             }
         }
