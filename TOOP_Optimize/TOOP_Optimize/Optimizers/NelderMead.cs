@@ -10,7 +10,6 @@ namespace TOOP_Optimize.Optimizers
 {
     public class NelderMead : IOptimizer
     {
-
         public NelderMead(IFunctional functional, DateTime maxTime, double eps)
         {
             this.functional = functional;
@@ -167,17 +166,5 @@ namespace TOOP_Optimize.Optimizers
         return startSimplex;
         }
 
-        class MyComparer : IComparer<double>
-        {
-            public int Compare(double x, double y)
-            {
-                if (Math.Abs(x - y) > 10e-4)
-                {
-                    return -1;
-                }
-
-                return 1;
-            }
-        }
     }
 }
