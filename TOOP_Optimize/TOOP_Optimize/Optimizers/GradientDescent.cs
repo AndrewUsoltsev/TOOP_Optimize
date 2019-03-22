@@ -13,7 +13,7 @@ namespace TOOP_Optimize.Optimizers
     {
         public F()
         {
-            Range = new[] {(-10.0, 10.0), (-10.0, 10.0) };
+            Range = new[] {(10.0, 20.0), (10.0, 20.0) };
         }
 
         public double Value(double[] parameters)
@@ -36,8 +36,6 @@ namespace TOOP_Optimize.Optimizers
 
     public class GradientDescent : IOptimizer
     {
-        public IFunctionalWithDiff functional { get; set; }
-
         private int FuncArguments => functional.Range.Length;
 
         private bool AtRange(double[] point)
@@ -51,7 +49,7 @@ namespace TOOP_Optimize.Optimizers
 
         public DateTime MaxTime { get; set; }
 
-        IFunctional IOptimizer.functional { set => throw new NotImplementedException(); }
+        public IFunctional functional { set; get; }
 
         public GradientDescent(IFunctional func, DateTime maxTime, double eps)
         {
@@ -67,10 +65,10 @@ namespace TOOP_Optimize.Optimizers
                 throw new ArgumentException(@"Initial array has wrong demension.", nameof(initial));
             }
 
-            //if (progress == null)
-            //{
-            //    throw new ArgumentNullException(nameof(progress));
-            //}
+            if (progress == null)
+            {
+                throw new ArgumentNullException(nameof(progress));
+            }
 
             if (initial == null)
             {
@@ -89,7 +87,7 @@ namespace TOOP_Optimize.Optimizers
                 for (var i = 0; i < currentPoint.Length; i++)
                 {
                     var value = currentPoint[i];
-                    newPoint[i] = value - alpha * functional.DfDp(i, currentPoint);
+                    newPoint[i] = value - alpha * ((IFunctionalWithDiff)functional).DfDp(i, currentPoint);
                     //Возможно, стоит делать эту проверку на область в цикле
                 }
 
