@@ -25,6 +25,7 @@ namespace TOOP_Optimize
         private string ObjectName { get; set; }
         private ParameterInfo[] FunctionalConstructorsParams { get; set; }
         public string JsonFile { get; private set; }
+        private JObject jObject { get; set; }
 
         public FunctionalsSettingsForm(string objectName)
         {
@@ -33,14 +34,23 @@ namespace TOOP_Optimize
             var createType = ClassCollector.FunctionalsTypes.Find(x => x.Name == ObjectName);
             FunctionalConstructorsParams = createType.GetConstructors().FirstOrDefault().GetParameters();
             UpdateLabel();
+
+
         }
 
         private void UpdateLabel()
         {
-            string textLabel = "Необходимые параметры:";
+            FileContentTreeView.BeginUpdate();
+            FileContentTreeView.Nodes.Clear();
+            var root = FileContentTreeView.Nodes[FileContentTreeView.Nodes.Add(new TreeNode("Необходимые параметры"))];
             foreach (var param in FunctionalConstructorsParams)
-                textLabel = string.Concat(textLabel, $"\n{param.ParameterType.Name} {param.Name}");
-            FileViewLabel.Text = textLabel;
+            {
+
+                var tmpNode = root.Nodes.Add(param.Name);
+                tmpNode.Nodes.Add(param.ParameterType.Name);
+            }
+            FileContentTreeView.ExpandAll();
+            FileContentTreeView.EndUpdate();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
@@ -58,7 +68,7 @@ namespace TOOP_Optimize
         private void LoadButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "json files (*.json)|*.json";
+            openFileDialog.Filter = "json files (*.json)|*.json|txt files (*.txt)|*.txt|All files (*.*)|*.*";
 
             string textJson = "";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -66,6 +76,8 @@ namespace TOOP_Optimize
                 string filename = openFileDialog.FileName;
                 textJson = System.IO.File.ReadAllText(filename);
             }
+            else
+                return;
 
             if (!IsCheckJsonFile(textJson))
             {
@@ -73,8 +85,8 @@ namespace TOOP_Optimize
                 return;
             }
 
-            FileViewLabel.Text = textJson;
             JsonFile = textJson;
+            UpdateTreeView();
             MessageBox.Show("Файл загружен!");
         }
 
@@ -87,14 +99,52 @@ namespace TOOP_Optimize
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message); // нормально ли?
+                MessageBox.Show(ex.Message);
                 return false;
             }
            
             foreach (var param in FunctionalConstructorsParams)
                 if (jObject[param.Name] == null)
                     return false;
+            this.jObject = jObject;
             return true;
+        }
+
+        private void UpdateTreeView()
+        {
+            FileContentTreeView.BeginUpdate();
+            FileContentTreeView.Nodes.Clear();
+            var root = FileContentTreeView.Nodes[FileContentTreeView.Nodes.Add(new TreeNode("Загруженные параметры"))];
+            foreach (var tmpObject in FunctionalConstructorsParams)
+            {
+                var tmpNode = root.Nodes.Add(tmpObject.Name);
+                GetChildStructure(ref tmpNode, jObject[tmpObject.Name].Parent);
+            }
+            FileContentTreeView.ExpandAll();
+            FileContentTreeView.EndUpdate();
+        }
+
+        // TODO если будет желание, можно отрефакторить для всех форматов
+        private void GetChildStructure(ref TreeNode root, JToken parameters)
+        {
+            if (parameters == null)
+                return;
+            var property = (parameters as JProperty);
+            if (property != null &&
+                property.Value.Type == JTokenType.Array)
+            {
+                var array = (JArray)property.Value;
+                for (int i = 0; i < array.Count; i++)
+                    root.Nodes.Add(array[i].ToString());
+            }
+            else
+            {
+                foreach (var param in parameters.Children())
+                {
+                    var tmpNode = root.Nodes.Add(param.ToString());
+                    GetChildStructure(ref tmpNode, param);
+                }
+            }
         }
 
     }
