@@ -31,13 +31,13 @@
             this.SaveButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.LoadButton = new System.Windows.Forms.Button();
-            this.FileViewLabel = new System.Windows.Forms.Label();
+            this.FileContentTreeView = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // SaveButton
             // 
             this.SaveButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.SaveButton.Location = new System.Drawing.Point(113, 379);
+            this.SaveButton.Location = new System.Drawing.Point(29, 323);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(75, 23);
             this.SaveButton.TabIndex = 1;
@@ -48,7 +48,7 @@
             // CancelButton
             // 
             this.CancelButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.CancelButton.Location = new System.Drawing.Point(245, 415);
+            this.CancelButton.Location = new System.Drawing.Point(180, 323);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(75, 23);
             this.CancelButton.TabIndex = 2;
@@ -59,7 +59,7 @@
             // LoadButton
             // 
             this.LoadButton.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.LoadButton.Location = new System.Drawing.Point(123, 30);
+            this.LoadButton.Location = new System.Drawing.Point(101, 20);
             this.LoadButton.Name = "LoadButton";
             this.LoadButton.Size = new System.Drawing.Size(79, 44);
             this.LoadButton.TabIndex = 5;
@@ -67,29 +67,27 @@
             this.LoadButton.UseVisualStyleBackColor = true;
             this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
             // 
-            // FileViewLabel
+            // FileContentTreeView
             // 
-            this.FileViewLabel.AutoSize = true;
-            this.FileViewLabel.Location = new System.Drawing.Point(99, 126);
-            this.FileViewLabel.Name = "FileViewLabel";
-            this.FileViewLabel.Size = new System.Drawing.Size(10, 13);
-            this.FileViewLabel.TabIndex = 6;
-            this.FileViewLabel.Text = " ";
+            this.FileContentTreeView.Location = new System.Drawing.Point(29, 80);
+            this.FileContentTreeView.Name = "FileContentTreeView";
+            this.FileContentTreeView.Size = new System.Drawing.Size(226, 228);
+            this.FileContentTreeView.TabIndex = 7;
             // 
             // FunctionalsSettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(348, 450);
-            this.Controls.Add(this.FileViewLabel);
+            this.ClientSize = new System.Drawing.Size(290, 358);
+            this.Controls.Add(this.FileContentTreeView);
             this.Controls.Add(this.LoadButton);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SaveButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "FunctionalsSettingsForm";
             this.Text = "Настройка функционала";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -97,6 +95,6 @@
         private System.Windows.Forms.Button SaveButton;
         private new System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Button LoadButton;
-        private System.Windows.Forms.Label FileViewLabel;
+        private System.Windows.Forms.TreeView FileContentTreeView;
     }
 }
