@@ -69,8 +69,11 @@ namespace TOOP_Optimize.Functionals
                 w[i] = 1.0;
             }
 
-            var step_inter = (Max - Min) / n;
-            var x1 = Min;
+            var min = q.Min();
+            var max = q.Max();
+
+            var step_inter = (max - min) / n;
+            var x1 = min;
             var x2 = x1 + step_inter;
             for (int i_inter = 0; i_inter < n - 1; i_inter++)
             {
@@ -89,7 +92,7 @@ namespace TOOP_Optimize.Functionals
                 if (i_inter != n - 2)
                     x2 += step_inter;
                 else
-                    x2 = Max;
+                    x2 = max;
             }
             return functional;
         }
