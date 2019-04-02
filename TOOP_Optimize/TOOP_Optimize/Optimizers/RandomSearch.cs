@@ -64,11 +64,26 @@ namespace TOOP_Optimize.Optimizers
 
         public double[] Optimize(double[] initial, IProgress<(double[] current, double residual, int progresslen, int progressval)> progress)
         {
+            if (progress == null)
+            {
+                throw new ArgumentNullException(nameof(progress));
+            }
+
+            if (initial == null)
+            {
+                throw new ArgumentNullException(nameof(initial));
+            }
+
+            if (initial.Length != FuncArguments)
+            {
+                throw new ArgumentException($"Неправильная размерность входного вектора: {initial.Length} != {FuncArguments}");
+            }
+
             rnd = new Random();
             var min = functional.Value(initial);
             var deltaRangeInit = Math.Abs(Range[0].max - Range[0].min);
             var time = new Stopwatch();
-            double[] point = new double[initial.Length];
+            double[] point = initial;
 
             time.Start();
             while (true)
