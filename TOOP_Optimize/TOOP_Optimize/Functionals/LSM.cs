@@ -12,11 +12,11 @@ namespace TOOP_Optimize.Functionals
         private double[] X;
         private double[] Y;
 
-        public LSM(double min, double max, double[] x, double[] y)
+        public LSM((double min, double max)[] range, double[] x, double[] y)
         {
             X = x;
             Y = y;
-            Range = new[] { (min, max) };
+            Range = range;
         }
 
         public (double min, double max)[] Range { get; }

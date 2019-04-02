@@ -12,10 +12,10 @@ namespace TOOP_Optimize.Functionals
     {
         private double[] Сoeff;
 
-        public Polinomial(double min, double max, double[] coeff)
+        public Polinomial((double min, double max)[] range, double[] coeff)
         {
             Сoeff = coeff;
-            Range = new[] { (min, max) };
+            Range = range;
         }
 
         public (double min, double max)[] Range { get; }
