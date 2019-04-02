@@ -7,9 +7,9 @@ using TOOP_Optimize.Interfaces;
 
 namespace TOOP_Optimize.Functionals
 {
-    public class SimpeFunctional : IFunctionalWithDiff
+    public class SimpleFunctional : IFunctionalWithDiff
     {
-        public SimpeFunctional()
+        public SimpleFunctional()
         {
             Range = new[] { (10.0, 20.0) };
         }

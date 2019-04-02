@@ -49,6 +49,11 @@ namespace TOOP_Optimize.Optimizers
                 throw new ArgumentNullException(nameof(initial));
             }
 
+            if (initial.Length != FuncArguments)
+            {
+                throw new ArgumentException($"Неправильная размерность входного вектора: {initial.Length} != {FuncArguments}");
+            }
+
             var currentPoint = initial;
             double residualLastIter = 0.0;
             var time = new Stopwatch();
