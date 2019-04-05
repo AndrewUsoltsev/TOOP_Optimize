@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using TOOP_Optimize.Exeptions;
 using TOOP_Optimize.Interfaces;
 
 
@@ -27,7 +28,14 @@ namespace TOOP_Optimize.Optimizers
 
         public GradientDescent(IFunctional func, DateTime maxTime, double eps)
         {
-            functional = (IFunctionalWithDiff)func;
+            if (func is IFunctionalWithDiff diff)
+            {
+                functional = diff;
+            }
+            else
+            {
+                throw new FunctionalWithoutDiffException(nameof(func));
+            }
             MaxTime = maxTime;
             Eps = eps;
         }
