@@ -18,6 +18,7 @@ namespace TOOP_Optimize.Optimizers
         {
             return functional.Range.Where((range, i) => point[i] < range.min || point[i] > range.max).Any();
         }
+
         private double alpha { get; set; } = 0.01;
 
         public double Eps { get; set; }
@@ -42,11 +43,6 @@ namespace TOOP_Optimize.Optimizers
 
         public double[] Optimize(double[] initial, IProgress<(double[] current, double residual, int progresslen, int progressval)> progress)
         {
-            if (AtRange(initial))
-            {
-                throw new ArgumentException(@"Initial array has wrong demension.", nameof(initial));
-            }
-
             if (progress == null)
             {
                 throw new ArgumentNullException(nameof(progress));
@@ -60,6 +56,11 @@ namespace TOOP_Optimize.Optimizers
             if (initial.Length != FuncArguments)
             {
                 throw new ArgumentException($"Неправильная размерность входного вектора: {initial.Length} != {FuncArguments}");
+            }
+
+            if (AtRange(initial))
+            {
+                throw new ArgumentException(@"Initial array has wrong demension.", nameof(initial));
             }
 
             var currentPoint = initial;
