@@ -25,6 +25,7 @@ namespace TOOP_Optimize.Optimizers
         public DateTime MaxTime { get; set; }
         public IFunctional functional { get; set; }
 
+
         const double alpha = 1;
         const double gamma = 2;
         const double rho = 0.5;
@@ -42,6 +43,11 @@ namespace TOOP_Optimize.Optimizers
             if (progress == null)
             {
                 throw new ArgumentNullException(nameof(progress));
+            }
+
+            if (initial.Length != N)
+            {
+                throw new ArgumentException($"Неправильная размерность входного вектора: {initial.Length} != {N}");
             }
 
             var residual = 0.0;
@@ -62,12 +68,9 @@ namespace TOOP_Optimize.Optimizers
 
                 FindCentroid(simplex, N, out var centroid);
 
-                if (Math.Abs(residual) > Eps)
-                {
-                    residualLastIter = residual;
-                }
+                residualLastIter = residual;
                 residual = Math.Abs(functionValues[N] - functionValues[0]);
-                if (residual < Eps)
+                if (Math.Abs(residual - residualLastIter) < Eps)
                 {
                     break;
                 }

@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassCollector.cs" />
+    <Compile Include="Exeptions\FunctionalWithoutDiffException.cs" />
     <Compile Include="Extension\RandomExtension.cs" />
     <Compile Include="Fabrics\FunctionalsFabric.cs" />
     <Compile Include="Fabrics\OptimizersFabric.cs" />
@@ -64,7 +65,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Functionals\PolinomialWithDiff.cs" />
-    <Compile Include="Functionals\SimpeFunctional.cs" />
+    <Compile Include="Functionals\SimpleFunctional.cs" />
     <Compile Include="Functionals\Spline.cs" />
     <Compile Include="Interfaces\Interfaces.cs" />
     <Compile Include="Forms\OptimizersSettingForm.cs">
