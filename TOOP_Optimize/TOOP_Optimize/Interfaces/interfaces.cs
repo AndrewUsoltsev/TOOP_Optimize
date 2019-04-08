@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TOOP_Optimize.Interfaces
-{
+{ 
     public interface IFunctional
     {
         double Value(double[] parameters);

@@ -14,12 +14,18 @@ namespace TOOP_Optimize.Functionals
         private double[] nodesSpline;
         private double[] valueSpline;
 
-        public Spline(int size, (double min, double max)[] range, double[] nodes, double[] value)
+        public Spline(int size, double[] min, double[] max, double[] nodes, double[] value)
         {
             sizeSpline = size;
             nodesSpline = nodes;
             valueSpline = value;
-            Range = range;
+            var count = min.Count();
+            var tuples = new (double, double)[count];
+            for (int i = 0; i < count; i++)
+            {
+                tuples[i] = (min[i], max[i]);
+            }
+            Range = tuples;
         }
 
         public (double min, double max)[] Range { get; }
