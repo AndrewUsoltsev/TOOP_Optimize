@@ -12,11 +12,17 @@ namespace TOOP_Optimize.Functionals
         private double[] X;
         private double[] Y;
 
-        public LSM(double min, double max, double[] x, double[] y)
+        public LSM(double[] min, double[] max, double[] x, double[] y)
         {
             X = x;
             Y = y;
-            Range = new[] { (min, max) };
+            var count = min.Count();
+            var tuples = new (double, double)[count];
+            for (int i = 0; i < count; i++)
+            {
+                tuples[i] = (min[i], max[i]);
+            }
+            Range = tuples;
         }
 
         public (double min, double max)[] Range { get; }

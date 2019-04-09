@@ -11,19 +11,21 @@ namespace TOOP_Optimize.Functionals
     class Spline : IFunctional
     {
         private int sizeSpline;
-        private double Min;
-        private double Max;
         private double[] nodesSpline;
         private double[] valueSpline;
 
-        public Spline(int size, double min, double max, double[] nodes, double[] value)
+        public Spline(int size, double[] min, double[] max, double[] nodes, double[] value)
         {
-            Min = min;
-            Max = max;
             sizeSpline = size;
             nodesSpline = nodes;
             valueSpline = value;
-            Range = new[] { (min, max) };
+            var count = min.Count();
+            var tuples = new (double, double)[count];
+            for (int i = 0; i < count; i++)
+            {
+                tuples[i] = (min[i], max[i]);
+            }
+            Range = tuples;
         }
 
         public (double min, double max)[] Range { get; }
@@ -63,7 +65,6 @@ namespace TOOP_Optimize.Functionals
 
         private double CalcFunctional(double[] q)
         {
-            //var P = 0.0;
             var functional = 0.0;
 
             var w = new double[sizeSpline];
@@ -74,8 +75,11 @@ namespace TOOP_Optimize.Functionals
                 w[i] = 1.0;
             }
 
-            var step_inter = (Max - Min) / n;
-            var x1 = Min;
+            var min = q.Min();
+            var max = q.Max();
+
+            var step_inter = (max - min) / n;
+            var x1 = min;
             var x2 = x1 + step_inter;
             for (int i_inter = 0; i_inter < n - 1; i_inter++)
             {
@@ -94,7 +98,7 @@ namespace TOOP_Optimize.Functionals
                 if (i_inter != n - 2)
                     x2 += step_inter;
                 else
-                    x2 = Max;
+                    x2 = max;
             }
             return functional;
         }
