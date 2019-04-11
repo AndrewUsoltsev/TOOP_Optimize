@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TOOP_Optimize.Formats;
+using TOOP_Optimize.Forms;
 
 namespace TOOP_Optimize
 {
@@ -24,11 +25,18 @@ namespace TOOP_Optimize
         public OptimizersSettingForm(string objectName)
         {
             InitializeComponent();
+            ParamsGridView.DataError += ParamsGridView_DataError;
 
             ObjectName = objectName;
             OptimizersFormat = new OptimizersFormat();
 
             TableFormation();
+        }
+
+        private void ParamsGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            ExceptionForm exceptionForm = new ExceptionForm(e.Exception);
+            exceptionForm.ShowDialog();
         }
 
         private void TableFormation()
@@ -58,7 +66,8 @@ namespace TOOP_Optimize
             }
             catch (Exception ex)
             {
-                throw ex;
+                ExceptionForm exceptionForm = new ExceptionForm(ex);
+                exceptionForm.ShowDialog();
             }
 
             CheckAndAssigmentParams(eps, seconds);

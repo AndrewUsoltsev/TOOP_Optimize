@@ -12,6 +12,7 @@ using TOOP_Optimize.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Reflection;
+using TOOP_Optimize.Forms;
 
 namespace TOOP_Optimize
 {
@@ -99,7 +100,8 @@ namespace TOOP_Optimize
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                ExceptionForm exceptionForm = new ExceptionForm(ex);
+                exceptionForm.ShowDialog();
                 return false;
             }
            
