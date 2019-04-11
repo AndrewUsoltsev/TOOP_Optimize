@@ -28,13 +28,21 @@ namespace TOOP_Optimize
         public string JsonFile { get; private set; }
         private JObject jObject { get; set; }
 
-        public FunctionalsSettingsForm(string objectName)
+        public FunctionalsSettingsForm(string objectName, string previousFile)
         {
             InitializeComponent();
             ObjectName = objectName;
             var createType = ClassCollector.FunctionalsTypes.Find(x => x.Name == ObjectName);
             FunctionalConstructorsParams = createType.GetConstructors().FirstOrDefault().GetParameters();
-            UpdateLabel();
+
+            if (previousFile != null)
+            {
+                JsonFile = previousFile;
+                jObject = jObject = JsonConvert.DeserializeObject<JObject>(previousFile);
+                UpdateTreeView();
+            }
+            else
+                UpdateLabel();
 
 
         }

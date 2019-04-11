@@ -20,7 +20,7 @@ namespace TOOP_Optimize
         public List<string> Functionals = new List<string>();
         public List<string> Optimizers = new List<string>();
 
-        string functionalsData = "";
+        string functionalsData = null;
         OptimizersFormat optimizersFormat = new OptimizersFormat();
 
         public Progress<(double[] current, double residual, int progresslen, int progressval)> Progress;
@@ -48,7 +48,7 @@ namespace TOOP_Optimize
 
         private void FunctionalSettings_Click(object sender, EventArgs e)
         {
-            FunctionalsSettingsForm settingsForm = new FunctionalsSettingsForm(FunctionalComboBox.SelectedItem.ToString());
+            FunctionalsSettingsForm settingsForm = new FunctionalsSettingsForm(FunctionalComboBox.SelectedItem.ToString(), functionalsData);
             settingsForm.ShowDialog();
             if (settingsForm.DialogResult == DialogResult.OK)
             {
@@ -66,8 +66,9 @@ namespace TOOP_Optimize
             }
         }
 
-        private void ProcessStartButton_Click(object sender, EventArgs e)
+        private async void ProcessStartButton_Click(object sender, EventArgs e)
         {
+            InitialVectorTextBox.Text = InitialVectorTextBox.Text.Trim();
             SolveProgressBar.Value = 0;
             ResidualLabel.Text = "Невязка:";
             List<double> initialVector = new List<double>();
@@ -76,7 +77,7 @@ namespace TOOP_Optimize
 
             try
             {
-                var parseString = InitialVectorTextBox.Text.ToString().Split(' ');
+                var parseString = InitialVectorTextBox.Text.Split(' ');
                 for (int i = 0; i < parseString.Length; i++)
                     initialVector.Add(Convert.ToDouble(parseString[i]));
 
@@ -96,9 +97,10 @@ namespace TOOP_Optimize
             {
                 ExceptionForm exceptionForm = new ExceptionForm(ex);
                 exceptionForm.ShowDialog();
+                return;
             }
 
-            var result = optimizer.Optimize(initialVector.ToArray(), Progress);
+            var result = await Task.Run(() => optimizer.Optimize(initialVector.ToArray(), Progress));
             MessageBox.Show(string.Join("\n", result));
         }
 
