@@ -107,5 +107,11 @@ namespace TOOP_Optimize
         {
             functionalsData = null;
         }
+
+        private void справкаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Help.ShowHelp(this, "help.chm");
+
+        }
     }
 }

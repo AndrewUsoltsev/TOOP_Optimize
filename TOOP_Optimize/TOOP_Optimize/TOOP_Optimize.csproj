@@ -104,6 +104,12 @@
     <EmbeddedResource Include="Forms\FunctionalsSettingsForm.resx">
       <DependentUpon>FunctionalsSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Examples\LSM.json" />
+    <None Include="Examples\Polynomial.json" />
+    <None Include="Examples\Spline.json" />
+    <None Include="help.chm">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

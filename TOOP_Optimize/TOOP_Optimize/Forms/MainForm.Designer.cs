@@ -39,6 +39,9 @@
             this.InitialLabel = new System.Windows.Forms.Label();
             this.InitialVectorTextBox = new System.Windows.Forms.TextBox();
             this.ResidualLabel = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.справкаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ProcessStartButton
@@ -151,6 +154,23 @@
             this.ResidualLabel.TabIndex = 10;
             this.ResidualLabel.Text = "Невязка:";
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.справкаToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(354, 24);
+            this.menuStrip1.TabIndex = 11;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // справкаToolStripMenuItem
+            // 
+            this.справкаToolStripMenuItem.Name = "справкаToolStripMenuItem";
+            this.справкаToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.справкаToolStripMenuItem.Text = "Справка";
+            this.справкаToolStripMenuItem.Click += new System.EventHandler(this.справкаToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -167,10 +187,14 @@
             this.Controls.Add(this.OptimizerComboBox);
             this.Controls.Add(this.FunctionalComboBox);
             this.Controls.Add(this.ProcessStartButton);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Оптимизатор функционала";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -188,6 +212,8 @@
         private System.Windows.Forms.Label InitialLabel;
         private System.Windows.Forms.TextBox InitialVectorTextBox;
         private System.Windows.Forms.Label ResidualLabel;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem справкаToolStripMenuItem;
     }
 }
 
