@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TOOP_Optimize.Exeptions;
 using TOOP_Optimize.Fabrics;
 using TOOP_Optimize.Formats;
 using TOOP_Optimize.Interfaces;
@@ -95,7 +96,10 @@ namespace TOOP_Optimize
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.StackTrace}\n {ex.Message}");
+                if (ex.InnerException != null)
+                    MessageBox.Show($"{ex.InnerException.Message}\n\n{ex.InnerException.StackTrace}");
+                else
+                    MessageBox.Show($"{ex.Message}\n\n{ex.StackTrace}");
             }
         }
 

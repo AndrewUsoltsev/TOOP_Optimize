@@ -73,7 +73,7 @@ namespace TOOP_Optimize
                 OptimizersFormat.Eps = eps;
             if (seconds > 0)
             {
-                maxTime.AddSeconds(seconds);
+                maxTime = maxTime.AddSeconds(seconds);
                 OptimizersFormat.MaxTime = maxTime;
             }
         }
