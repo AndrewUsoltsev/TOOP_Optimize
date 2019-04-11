@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using TOOP_Optimize.Exeptions;
 using TOOP_Optimize.Fabrics;
 using TOOP_Optimize.Formats;
+using TOOP_Optimize.Forms;
 using TOOP_Optimize.Interfaces;
 
 namespace TOOP_Optimize
@@ -19,7 +20,7 @@ namespace TOOP_Optimize
         public List<string> Functionals = new List<string>();
         public List<string> Optimizers = new List<string>();
 
-        string functionalsData = "";
+        string functionalsData = null;
         OptimizersFormat optimizersFormat = new OptimizersFormat();
 
         public Progress<(double[] current, double residual, int progresslen, int progressval)> Progress;
@@ -47,7 +48,7 @@ namespace TOOP_Optimize
 
         private void FunctionalSettings_Click(object sender, EventArgs e)
         {
-            FunctionalsSettingsForm settingsForm = new FunctionalsSettingsForm(FunctionalComboBox.SelectedItem.ToString());
+            FunctionalsSettingsForm settingsForm = new FunctionalsSettingsForm(FunctionalComboBox.SelectedItem.ToString(), functionalsData);
             settingsForm.ShowDialog();
             if (settingsForm.DialogResult == DialogResult.OK)
             {
@@ -65,19 +66,20 @@ namespace TOOP_Optimize
             }
         }
 
-        private void ProcessStartButton_Click(object sender, EventArgs e)
+        private async void ProcessStartButton_Click(object sender, EventArgs e)
         {
+            InitialVectorTextBox.Text = InitialVectorTextBox.Text.Trim();
             SolveProgressBar.Value = 0;
             ResidualLabel.Text = "Невязка:";
             List<double> initialVector = new List<double>();
+            IFunctional functional = null;
+            IOptimizer optimizer = null;
+
             try
             {
-                var parseString = InitialVectorTextBox.Text.ToString().Split(' ');
+                var parseString = InitialVectorTextBox.Text.Split(' ');
                 for (int i = 0; i < parseString.Length; i++)
                     initialVector.Add(Convert.ToDouble(parseString[i]));
-
-                IFunctional functional = null;
-                IOptimizer optimizer = null;
 
                 functional = FunctionalsFabric
                     .GetFunctional(
@@ -90,17 +92,16 @@ namespace TOOP_Optimize
                     functional,
                     optimizersFormat.MaxTime,
                     optimizersFormat.Eps);
-
-                var result = optimizer.Optimize(initialVector.ToArray(), Progress);
-                MessageBox.Show(string.Join("\n", result));
             }
             catch (Exception ex)
             {
-                if (ex.InnerException != null)
-                    MessageBox.Show($"{ex.InnerException.Message}\n\n{ex.InnerException.StackTrace}");
-                else
-                    MessageBox.Show($"{ex.Message}\n\n{ex.StackTrace}");
+                ExceptionForm exceptionForm = new ExceptionForm(ex);
+                exceptionForm.ShowDialog();
+                return;
             }
+
+            var result = await Task.Run(() => optimizer.Optimize(initialVector.ToArray(), Progress));
+            MessageBox.Show(string.Join("\n", result));
         }
 
         private void FunctionalComboBox_SelectedIndexChanged(object sender, EventArgs e)

@@ -56,6 +56,18 @@
     <Compile Include="Fabrics\FunctionalsFabric.cs" />
     <Compile Include="Fabrics\OptimizersFabric.cs" />
     <Compile Include="Formats\OptimizersFormat.cs" />
+    <Compile Include="Forms\ExceptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ExceptionForm.Designer.cs">
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\StackTraceExceptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StackTraceExceptionForm.Designer.cs">
+      <DependentUpon>StackTraceExceptionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Functionals\LSM.cs" />
     <Compile Include="Functionals\Polinomial.cs" />
     <Compile Include="Forms\MainForm.cs">
@@ -85,11 +97,17 @@
     <Compile Include="Forms\FunctionalsSettingsForm.Designer.cs">
       <DependentUpon>FunctionalsSettingsForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\ExceptionForm.resx">
+      <DependentUpon>ExceptionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OptimizersSettingForm.resx">
       <DependentUpon>OptimizersSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StackTraceExceptionForm.resx">
+      <DependentUpon>StackTraceExceptionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
